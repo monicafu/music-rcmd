@@ -6,10 +6,11 @@ let currentIdPopup = 1;
 
 // --- SAP initialization ---
 function initSAP(json) {
-	for (let i in json) {
-		json[i].upvoted = '';
-		musicList.push(json[i]);
+	for (let song of json) {
+		song.upvoted = '';
+		musicList.push(song);
 	}
+	console.log(musicList);
 	renderMusic(musicList);
 	setStaticEventListener();
 }
@@ -369,7 +370,7 @@ function postDeleteData(musicID) {
     })
     .then(response => response.ok ? response.json() : Promise.reject(response.status))
     // TEST ONLY
-    // .then(print => console.log(print))
+    .then(print => console.log(print))
     .catch(error => console.log('Error:'));
 }
 
