@@ -281,13 +281,28 @@ function getGenre(genre){
 
 function search(input){
 	let result = [];
+    input = input.changeFormat(input);
     for (let music of getGenre(currentGenre)) {
-		if (music.album === input || music.artist === input || music.title === input ) {
+		if (music.genre.toUpperCase() === input || music.album.toUpperCase() === input || music.artist.toUpperCase() === input || music.title.toUpperCase() === input ) {
             result.push(music);
 		}
 	}
 	return result;
 }
+
+function changeFormat(input){
+    let res = "";
+    for(let i = 0; i < input.length;i++){
+        if(input[i] !== " "){
+            res += input[i];
+        }
+        else{i++;}
+    }
+    return res.toUpperCase();
+}
+
+
+
                 
 //   ture: lowTohigh;  false: highToLow;               
 function sort(music, TOrF){
@@ -407,3 +422,9 @@ function postLikes(musicID, flag) {
 
 
 performGetRequest();
+
+
+
+
+
+
