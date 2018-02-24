@@ -162,6 +162,10 @@ function clearPopupInput() {
 	elements.inputGenre.value = null;
 }
 
+function clearSearchBar() {
+	elements.searchBar.value = null;
+}
+
 // --- Event Listener Handler definitions ---
 function filterHandler(event) {
 	const anchor = event.target;
@@ -215,7 +219,9 @@ function deleteHandler() {
 }
 
 function searchHandler() {
-	
+	const result = search(elements.searchBar.value);
+	renderMusic(result);
+	clearSearchBar();
 }
 
 // --- Render definition ---
@@ -275,7 +281,7 @@ function getGenre(genre){
 function search(input){
 	let result = [];
     for (let music of getGenre(currentGenre)) {
-		if (music.genre === input || music.album === input || music.artist === input || music.title === input ) {
+		if (music.album === input || music.artist === input || music.title === input ) {
             result.push(music);
 		}
 	}
@@ -319,7 +325,7 @@ function saveMusic(musicID) {
        		if (elements.inputGenre.value) {
            		music.genre = elements.inputGenre.value;
        		}
-       		// postSaveData(music);
+       		postSaveData(music);
         }
     }
 }
@@ -349,7 +355,7 @@ function deleteMusic(musicID) {
         if (musicList[i].id == musicID) {
             musicList.splice(i,1);
         }
-        // postDeleteData(musicID);
+        postDeleteData(musicID);
     }
 }
 
@@ -372,11 +378,11 @@ function upvoteMusic(musicID) {
         if (musicList[i].id == musicID) {
             if (musicList[i].upvoted === '') {
                 musicList[i].upvotes += 1;
-                // postLikes(musicID, true);
+                postLikes(musicID, true);
                 musicList[i].upvoted = 'upvoted';
             } else if (musicList[i].upvoted === 'upvoted') {
                 musicList[i].upvotes -= 1;
-                // postLikes(musicID, false);
+                postLikes(musicID, false);
                 musicList[i].upvoted = '';
             }
         }
