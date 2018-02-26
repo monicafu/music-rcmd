@@ -9,7 +9,6 @@ let songList = data.songsList;
 app.use(bodyParser.json());
 app.use('',express.static('public'));
 
-
 /*get all songs list request*/
 app.get('/getMusic', function(req, res) {
     res.send(JSON.stringify(songList));
@@ -39,7 +38,6 @@ app.post('/getSaveData',function (req,res) {
 
 /*delete request*/
 app.post('/getDeleteData',function (req,res){
-   console.log(req.body.id);
    const id = req.body.id;
    deleteSong(id);
    //res.json(songList);
@@ -58,23 +56,28 @@ function updateVotes(songId,isLiked) {
 function updateSong(song) {
     for (let i in songList){
         if (songList[i].id === song.id){
-            songList[i].title = song.title;
-            songList[i].artist = song.artist;
-            songList[i].album = song.album;
-            songList[i].genre = song.genre;
+            songList[i] = {
+              "id": song.id,
+              "title": song.title,
+              "artist": song.artist,
+              "album": song.album,
+              "image": songList[i].image,
+              "genre": song.genre,
+              "upvotes": songList[i].upvotes
+            }
+            console.log(songList[i]);
             console.log(`now the song info is ${songList[song.id-1].title},
     ${songList[song.id-1].artist},${songList[song.id-1].album},${songList[song.id-1].genre}`);
         }
         break;
     }
-    
+    console.log(songList);
 }
 
 function deleteSong(songId) {
     console.log(`deleted song is ${songList[songId-1].id},title is ${songList[songId-1].title}`);
     songList.splice(songId-1,1);
-    //delete songList[songId-1];
-    console.log(`after delete ${songList[songId-1].id},title is ${songList[songId-1].title}`);    
+    console.log(songList);
 }
 
 app.listen(PORT, () => {
