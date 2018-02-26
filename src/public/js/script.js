@@ -301,9 +301,6 @@ function changeFormat(input){
     return res.toUpperCase();
 }
 
-
-
-
 //   ture: lowTohigh;  false: highToLow;
 function sort(music, TOrF){
     if(TOrF === false){
@@ -330,16 +327,16 @@ function saveMusic(musicID) {
     for (let music of musicList) {
         if (music.id == musicID) {
         	if (elements.inputTitle.value) {
-           		music.title = elements.inputTitle.value;
+           		music.id.title = elements.inputTitle.value;
         	}
         	if (elements.inputArtist.value) {
-            	music.artist = elements.inputArtist.value;
+            	music.id.artist = elements.inputArtist.value;
        		}
        		if (elements.inputAlbum.value) {
-            	music.album = elements.inputAlbum.value;
+            	music.id.album = elements.inputAlbum.value;
        		}
        		if (elements.inputGenre.value) {
-           		music.genre = elements.inputGenre.value;
+           		music.id.genre = elements.inputGenre.value;
        		}
        		postSaveData(music);
         }
@@ -367,9 +364,7 @@ function postSaveData(music) {
 }
 
 function deleteMusic(musicID) {
-
-		musicList.splice(musicID-1,1);
-		//console.log(musicList);
+		delete musicList[musicID];
 		postDeleteData(musicID);
 		renderMusic(musicList);
 }
@@ -389,16 +384,16 @@ function postDeleteData(musicID) {
 }
 
 function upvoteMusic(musicID) {
-    for (let i in musicList) {
-        if (musicList[i].id == musicID) {
-            if (musicList[i].upvoted === '') {
-                musicList[i].upvotes += 1;
-                postLikes(musicID, true);
-                musicList[i].upvoted = 'upvoted';
+    for (let music of musicList) {
+        if (music.id === musicID) {
+            if (music.id.upvoted === '') {
+                music.id.upvotes += 1;
+                // postLikes(musicID, true);
+                music.id.upvoted = 'upvoted';
             } else if (musicList[i].upvoted === 'upvoted') {
-                musicList[i].upvotes -= 1;
-                postLikes(musicID, false);
-                musicList[i].upvoted = '';
+                music.id.upvotes -= 1;
+                // postLikes(musicID, false);
+                music.id.upvoted = '';
             }
         }
     }
@@ -417,7 +412,5 @@ function postLikes(musicID, flag) {
     // .then(print => console.log(print))
     .catch(error => console.log('Error:'));
 }
-
-
 
 performGetRequest();
