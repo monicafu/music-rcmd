@@ -248,7 +248,7 @@ function renderMusic(items) {  // items is an arr
 
 function renderPopup(item) {  // item is an object
 	elements.inputTitle.setAttribute('placeholder', item.title);
-	elements.inputArtist.setAttribute('placeholder', item.artist); 
+	elements.inputArtist.setAttribute('placeholder', item.artist);
 	elements.inputAlbum.setAttribute('placeholder', item.album);
 	elements.inputGenre.setAttribute('placeholder', item.genre);
 }
@@ -303,15 +303,15 @@ function changeFormat(input){
 
 
 
-                
-//   ture: lowTohigh;  false: highToLow;               
+
+//   ture: lowTohigh;  false: highToLow;
 function sort(music, TOrF){
     if(TOrF === false){
         return lowTohigh(music);}
     else{
         return lowTohigh(music).reverse();}
 }
-          
+
 function lowTohigh(music){
     for(let i = 0; i < music.length; i++){
         for(let j = i+1; j < music.length; j++){
@@ -362,17 +362,16 @@ function postSaveData(music) {
     })
     .then(response => response.ok ? response.json() : Promise.reject(response.status))
     // TEST ONLY
-    // .then(print => console.log(print))
+    .then(print => console.log(print))
     .catch(error => console.log('Error:'));
 }
 
 function deleteMusic(musicID) {
-    for (let i in musicList) {
-        if (musicList[i].id == musicID) {
-            musicList.splice(i,1);
-        }
-        postDeleteData(musicID);
-    }
+
+		musicList.splice(musicID-1,1);
+		//console.log(musicList);
+		postDeleteData(musicID);
+		renderMusic(musicList);
 }
 
 function postDeleteData(musicID) {
@@ -385,7 +384,7 @@ function postDeleteData(musicID) {
     })
     .then(response => response.ok ? response.json() : Promise.reject(response.status))
     // TEST ONLY
-    .then(print => console.log(print))
+    //.then(print => console.log(print))
     .catch(error => console.log('Error:'));
 }
 
@@ -422,9 +421,3 @@ function postLikes(musicID, flag) {
 
 
 performGetRequest();
-
-
-
-
-
-
