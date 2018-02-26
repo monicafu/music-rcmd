@@ -301,9 +301,6 @@ function changeFormat(input){
     return res.toUpperCase();
 }
 
-
-
-
 //   ture: lowTohigh;  false: highToLow;
 function sort(music, TOrF){
     if(TOrF === false){
@@ -369,7 +366,6 @@ function postSaveData(music) {
 function deleteMusic(musicID) {
 
 		musicList.splice(musicID-1,1);
-		//console.log(musicList);
 		postDeleteData(musicID);
 		renderMusic(musicList);
 }
@@ -417,7 +413,5 @@ function postLikes(musicID, flag) {
     // .then(print => console.log(print))
     .catch(error => console.log('Error:'));
 }
-
-
 
 performGetRequest();
