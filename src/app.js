@@ -49,6 +49,7 @@ app.post('/getSaveData',function (req,res) {
 /*delete request*/
 app.post('/getDeleteData',function (req,res){
    console.log(req.body);
+   const id = req.body.id;
     if (id === 'error') {
         res.status(500).end();
     } else {
@@ -63,29 +64,23 @@ function updateVotes(songId,isLiked) {
     }else{
         songList[songId].upvotes -= 1;
     }
-    console.log(`songId is ${songList[songId].id} and votes now is ${songList[songId].upvotes}`);
+    //console.log(`songId is ${songList[songId].id} and votes now is ${songList[songId].upvotes}`);
 }
 
 function updateSong(song) {
-    for (let i in songList){
-        if (songList[i].id === song.id){
-            songList[i].title = song.title;
-            songList[i].artist = song.artist;
-            songList[i].album = song.album;
-            songList[i].genre = song.genre;
-        }
-        break;
-    }
-    console.log(`now the song info is ${songList[song.id].title},
-    ${songList[song.id].artist},${songList[song.id].album},${songList[song.id].genre}`);
-    console.log(songList);
+    
+    songList[song.id].title = song.title;
+    songList[song.id].artist = song.artist;
+    songList[song.id].album = song.album;
+    songList[song.id].genre = song.genre;
+    //console.log(songList);
+      
 }
+    
 
 function deleteSong(songId) {
     delete songList[songId];
-    console.log(`the song is deleted,
-    so check ${songList[songId].id} is mapping to ${songList[songId].title}`);
-    console.log(songList);
+    //console.log(songList);
 }
 
 app.listen(PORT, () => {

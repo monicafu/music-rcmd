@@ -1,17 +1,17 @@
 
 // --- Global ---
-let musicList = [];
+let musicList = {};
 let currentGenre = 'All';
 let currentIdPopup = 1;
 
 // --- SAP initialization ---
 function initSAP(json) {
-	for (let song of json) {
-		song.upvoted = '';
-		musicList.push(song);
+	for (let i in json) {
+		json[i].upvoted = '';
 	}
+	musicList = json;
 	console.log(musicList);
-	renderMusic(musicList);
+	renderMusic(objToArr(musicList));
 	setStaticEventListener();
 }
 
@@ -187,7 +187,7 @@ function editHandler(event) {
 	// Refresh popup
 	const id = event.target.getAttribute('data-id');
 	currentIdPopup = id;
-	renderPopup(getMusicObj(id));
+	renderPopup(musicList[id]);
 	togglePopup();
 	// Reset save and delete listeners
 	resetPopupEventListener();
@@ -254,23 +254,31 @@ function renderPopup(item) {  // item is an object
 }
 
 // --- Functions ---
-function getMusicObj(id) {
-	let result = {};
-	for (let music of musicList) {
-		if (music.id == id) {
-			result = music;
-		}
+// function getMusicObj(id) {
+// 	let result = {};
+// 	for (let music of musicList) {
+// 		if (music.id == id) {
+// 			result = music;
+// 		}
+// 	}
+// 	return result;
+// }
+
+function objToArr(obj) {
+	let arr = [];
+	for (let i in obj) {
+		arr.push(obj[i]);
 	}
-	return result;
+	return arr;
 }
 
 function getGenre(genre){
 	let result = [];
 	if (genre === 'All') {
-		result = musicList;
+		result = objToArr(musicList);
 	}
 	else {
-		for (let music of musicList) {
+		for (let music of objToArr(musicList)) {
 			if (music.genre.replace(/\&/g, '&amp;') === genre) {
 				result.push(music);
 			}
@@ -281,7 +289,7 @@ function getGenre(genre){
 
 function search(input){
 	let result = [];
-    input = input.changeFormat(input);
+    input = changeFormat(input);
     for (let music of getGenre(currentGenre)) {
 		if (music.genre.toUpperCase() === input || music.album.toUpperCase() === input || music.artist.toUpperCase() === input || music.title.toUpperCase() === input ) {
             result.push(music);
@@ -304,9 +312,9 @@ function changeFormat(input){
 //   ture: lowTohigh;  false: highToLow;
 function sort(music, TOrF){
     if(TOrF === false){
-        return lowTohigh(music);}
+        return objToArr(lowTohigh(music));}
     else{
-        return lowTohigh(music).reverse();}
+        return objToArr(lowTohigh(music)).reverse();}
 }
 
 function lowTohigh(music){
@@ -324,28 +332,28 @@ function lowTohigh(music){
 
 // Edit music infomation
 function saveMusic(musicID) {
-    for (let music of musicList) {
-        if (music.id == musicID) {
+    for (let i in musicList) {
+        if (i == musicID) {
         	if (elements.inputTitle.value) {
-           		music.id.title = elements.inputTitle.value;
+           		musicList[i].title = elements.inputTitle.value;
         	}
         	if (elements.inputArtist.value) {
-            	music.id.artist = elements.inputArtist.value;
+            	musicList[i].artist = elements.inputArtist.value;
        		}
        		if (elements.inputAlbum.value) {
-            	music.id.album = elements.inputAlbum.value;
+            	musicList[i].album = elements.inputAlbum.value;
        		}
        		if (elements.inputGenre.value) {
-           		music.id.genre = elements.inputGenre.value;
+           		musicList[i].genre = elements.inputGenre.value;
        		}
-       		postSaveData(music);
+       		postSaveData(musicList[i]);
         }
     }
 }
 
 function postSaveData(music) {
     let data = {
-        id : music.id,
+    	id: music.id,
         title : music.title,
         artist : music.artist,
         album : music.album,
@@ -366,7 +374,7 @@ function postSaveData(music) {
 function deleteMusic(musicID) {
 		delete musicList[musicID];
 		postDeleteData(musicID);
-		renderMusic(musicList);
+		renderMusic(objToArr(musicList));
 }
 
 function postDeleteData(musicID) {
@@ -384,16 +392,16 @@ function postDeleteData(musicID) {
 }
 
 function upvoteMusic(musicID) {
-    for (let music of musicList) {
-        if (music.id === musicID) {
-            if (music.id.upvoted === '') {
-                music.id.upvotes += 1;
-                // postLikes(musicID, true);
-                music.id.upvoted = 'upvoted';
+    for (let i in musicList) {
+        if (i === musicID) {
+            if (musicList[i].upvoted === '') {
+                musicList[i].upvotes += 1;
+                postLikes(musicID, true);
+                musicList[i].upvoted = 'upvoted';
             } else if (musicList[i].upvoted === 'upvoted') {
-                music.id.upvotes -= 1;
-                // postLikes(musicID, false);
-                music.id.upvoted = '';
+                musicList[i].upvotes -= 1;
+                postLikes(musicID, false);
+                musicList[i].upvoted = '';
             }
         }
     }
