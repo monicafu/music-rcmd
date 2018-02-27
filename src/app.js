@@ -69,10 +69,15 @@ function updateVotes(songId,isLiked) {
 function updateSong(song) {
     for (let i in songList){
         if (songList[i].id === song.id){
-            songList[i].title = song.title;
-            songList[i].artist = song.artist;
-            songList[i].album = song.album;
-            songList[i].genre = song.genre;
+            songList[i] = {
+              "id": song.id,
+              "title": song.title,
+              "artist": song.artist,
+              "album": song.album,
+              "image": songList[i].image,
+              "genre": song.genre,
+              "upvotes": songList[i].upvotes
+            }
         }
         break;
     }
