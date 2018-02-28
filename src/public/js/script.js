@@ -1,6 +1,7 @@
 
 // --- Global ---
 let musicList = {};
+let renderBuff = [];
 let currentGenre = 'All';
 let currentIdPopup = 1;
 
@@ -11,8 +12,8 @@ function initSAP(json) {
 		json[i].upvoted = '';
 	}
 	musicList = json;
-	console.log(musicList);
-	renderMusic(objToArr(musicList));
+	updateRenderBuff(objToArr(musicList));
+	renderMusic();
 	setStaticEventListener();
 }
 
@@ -176,23 +177,25 @@ function clearSearchBar() {
 function filterHandler(event) {
 	const anchor = event.target;
 	currentGenre = anchor.innerHTML;
-	renderMusic(getGenre(currentGenre));
+	updateRenderBuff(getGenre(currentGenre));
+	renderMusic();
 	switchGenre(anchor);
 	resetSortBtn();
+	clearSearchBar();
 }
 
 function upvoteHandler(event) {
 	const id = event.target.getAttribute('data-id');
-	upvoteMusic(id);
+	upvoteMusicFromBuff(upvoteMusic(id));
 	toggleUpvote(event.target);
-	renderMusic(getGenre(currentGenre));
+	renderMusic();
 }
 
 function editHandler(event) {
 	// Refresh popup
 	const id = event.target.getAttribute('data-id');
 	currentIdPopup = id;
-	renderPopup(musicList[id]);
+	renderPopup();
 	togglePopup();
 	// Reset save and delete listeners
 	resetPopupEventListener();
@@ -203,31 +206,35 @@ function editHandler(event) {
 
 function sortHandler(event) {
 	if (event.target.classList.contains('right-btn')) {
-		renderMusic(sort(getGenre(currentGenre), true));
+		updateRenderBuff(sort(getGenre(currentGenre), true));
 		toggleRightBtn();
 	}
 	else {
-		renderMusic(sort(getGenre(currentGenre), false));
+		updateRenderBuff(sort(getGenre(currentGenre), false));
 		toggleInvertBtn();
 	}
+
+	renderMusic();
 }
 
 function saveHandler() {
-	saveMusic(currentIdPopup);
-	renderMusic(getGenre(currentGenre));
+	saveMusicFromBuff(saveMusic(currentIdPopup));
+	renderMusic();
 	togglePopup();
 }
 
 function deleteHandler() {
 	deleteMusic(currentIdPopup);
-	renderMusic(getGenre(currentGenre));
+	deleteMusicFromBuff(currentIdPopup);
+	renderMusic();
 	togglePopup();
 }
 
 function searchHandler() {
-	const result = search(elements.searchBar.value);
-	renderMusic(result);
-	clearSearchBar();
+	updateRenderBuff(search(elements.searchBar.value));
+	renderMusic();
+	elements.searchBar.blur();
+	// clearSearchBar();
 }
 
 function searchEnterHandler(event) {
@@ -238,14 +245,14 @@ function searchEnterHandler(event) {
 
 
 // --- Render definition ---
-function renderMusic(items) {  // items is an arr
+function renderMusic() {  // items is an arr
 	let result = '';
 
-	if (items.length === 0) {
+	if (renderBuff.length === 0) {
 		result = setPlaceholder();
 	}
 
-	for (let item of items) {
+	for (let item of renderBuff) {
 		result += `<div class="item">
 			<img src="${item.image}" alt="${item.album}" />
 			<div class="actions">
@@ -263,7 +270,8 @@ function renderMusic(items) {  // items is an arr
 	setItemEventListener();
 }
 
-function renderPopup(item) {  // item is an object
+function renderPopup() { 
+	const item = musicList[currentIdPopup];
 	elements.inputTitle.setAttribute('placeholder', item.title);
 	elements.inputArtist.setAttribute('placeholder', item.artist);
 	elements.inputAlbum.setAttribute('placeholder', item.album);
@@ -286,6 +294,27 @@ function setPlaceholder() {
 }
 
 
+// --- Render buffer manipulations ---
+function updateRenderBuff(items) {  // items is an array
+	renderBuff = items;
+}
+
+function saveMusicFromBuff(music) {
+	const index = getIndexInBuff(music.id);
+	renderBuff[index] = music;
+}
+
+function deleteMusicFromBuff(musicID) {
+	const index = getIndexInBuff(musicID);
+	renderBuff.splice(index, 1);
+}
+
+function upvoteMusicFromBuff(music) {
+	let index = getIndexInBuff(music.id);
+	renderBuff[index] = music;
+}
+
+
 // --- Functions ---
 function objToArr(obj) {
 	let arr = [];
@@ -293,6 +322,16 @@ function objToArr(obj) {
 		arr.push(obj[i]);
 	}
 	return arr;
+}
+
+function getIndexInBuff(id) {
+	for (let i in renderBuff) {
+		if (renderBuff[i].id == id) {
+			return i;
+		}
+	}
+
+	return -1;
 }
 
 function getGenre(genre){
@@ -368,6 +407,8 @@ function saveMusic(musicID) {
        		}
        		musicList[i].genre = elements.optionsGenre[elements.selectGenre.selectedIndex].value;
        		postSaveData(musicList[i]);
+
+   			return musicList[i];
         }
     }
 }
@@ -393,9 +434,8 @@ function postSaveData(music) {
 }
 
 function deleteMusic(musicID) {
-		delete musicList[musicID];
-		postDeleteData(musicID);
-		renderMusic(objToArr(musicList));
+	postDeleteData(musicID);
+	delete musicList[musicID];
 }
 
 function postDeleteData(musicID) {
@@ -424,6 +464,8 @@ function upvoteMusic(musicID) {
                 postLikes(musicID, false);
                 musicList[i].upvoted = '';
             }
+
+            return musicList[musicID];
         }
     }
 }
