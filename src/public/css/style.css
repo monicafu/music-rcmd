@@ -373,8 +373,8 @@ main {
 }
 
 .popup input {
-	background-color: #f5f5f5;
 	width: 200px;
+	background-color: #f5f5f5;
 	border: none;
 	outline: none;
 	border-bottom: 2px solid #333;
@@ -382,6 +382,21 @@ main {
 	font-family: Verdana;
 	font-size: 14px;
 	/*font-weight: bold;*/
+}
+
+.popup select {
+	width: 200px;
+	background-color: #f5f5f5;
+	border: none;
+	outline: none;
+	border-bottom: 2px solid #333;
+	color: #333;
+	font-family: Verdana;
+	font-size: 14px;
+}
+
+.popup option {
+	
 }
 
 .popup .save {

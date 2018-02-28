@@ -65,7 +65,8 @@ const elements = {
 	inputTitle: document.querySelector('#title'),
 	inputArtist: document.querySelector('#artist'),
 	inputAlbum: document.querySelector('#album'),
-	inputGenre: document.querySelector('#genre'),
+	selectGenre: document.querySelector('#genre'),
+	optionsGenre: document.querySelector('#genre').options,
 	// Popup actions
 	saveBtn: document.querySelector('.save'),
 	deleteBtn: document.querySelector('.delete'),
@@ -164,7 +165,6 @@ function clearPopupInput() {
 	elements.inputTitle.value = null;
 	elements.inputArtist.value = null;
 	elements.inputAlbum.value = null;
-	elements.inputGenre.value = null;
 }
 
 function clearSearchBar() {
@@ -267,7 +267,11 @@ function renderPopup(item) {  // item is an object
 	elements.inputTitle.setAttribute('placeholder', item.title);
 	elements.inputArtist.setAttribute('placeholder', item.artist);
 	elements.inputAlbum.setAttribute('placeholder', item.album);
-	elements.inputGenre.setAttribute('placeholder', item.genre);
+	for (let i in elements.optionsGenre) {
+		if (elements.optionsGenre[i].value === item.genre) {
+			elements.optionsGenre[i].selected = true;
+		}
+	}
 }
 
 function setPlaceholder() {
@@ -362,9 +366,7 @@ function saveMusic(musicID) {
        		if (elements.inputAlbum.value) {
             	musicList[i].album = elements.inputAlbum.value;
        		}
-       		if (elements.inputGenre.value) {
-           		musicList[i].genre = elements.inputGenre.value;
-       		}
+       		musicList[i].genre = elements.optionsGenre[elements.selectGenre.selectedIndex].value;
        		postSaveData(musicList[i]);
         }
     }
