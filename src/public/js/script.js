@@ -4,6 +4,7 @@ let musicList = {};
 let currentGenre = 'All';
 let currentIdPopup = 1;
 
+
 // --- SAP initialization ---
 function initSAP(json) {
 	for (let i in json) {
@@ -46,6 +47,7 @@ const performGetRequest = () => {
 	});
 };
 
+
 // --- Listener setting ---
 const elements = {
 	// Music render
@@ -86,6 +88,7 @@ function setStaticEventListener() {
 	// Search control
 	// elements.searchBar.addEventListener();
 	elements.searchBtn.addEventListener('click', searchHandler);
+	elements.searchBar.addEventListener('keydown', searchEnterHandler);
 	// Popup control
 	elements.popupMask.addEventListener('click', togglePopup);
 	elements.popupCloseBtn.addEventListener('click', togglePopup);
@@ -115,6 +118,7 @@ function resetPopupEventListener() {
 	elements.saveBtn.removeEventListener('click', saveHandler);
 	elements.deleteBtn.removeEventListener('click', deleteHandler);
 }
+
 
 // --- UI control ---
 function toggleMenu() {
@@ -157,10 +161,10 @@ function resetSortBtn() {
 }
 
 function clearPopupInput() {
-	elements.inputTitle.value = '';
-	elements.inputArtist.value = '';
-	elements.inputAlbum.value = '';
-	elements.inputGenre.value = '';
+	elements.inputTitle.value = null;
+	elements.inputArtist.value = null;
+	elements.inputAlbum.value = null;
+	elements.inputGenre.value = null;
 }
 
 function clearSearchBar() {
@@ -226,9 +230,21 @@ function searchHandler() {
 	clearSearchBar();
 }
 
+function searchEnterHandler(event) {
+	if (event.keyCode === 13) {
+		searchHandler();
+	}
+}
+
+
 // --- Render definition ---
 function renderMusic(items) {  // items is an arr
 	let result = '';
+
+	if (items.length === 0) {
+		result = setPlaceholder();
+	}
+
 	for (let item of items) {
 		result += `<div class="item">
 			<img src="${item.image}" alt="${item.album}" />
@@ -253,6 +269,18 @@ function renderPopup(item) {  // item is an object
 	elements.inputAlbum.setAttribute('placeholder', item.album);
 	elements.inputGenre.setAttribute('placeholder', item.genre);
 }
+
+function setPlaceholder() {
+	const searchValue = elements.searchBar.value;
+
+	if (searchValue !== '') {
+		return `<div class="placeholder">No music/artist/album matches <i class="result-hightlight">${searchValue}</i> in <span class="result-hightlight">${currentGenre}</span>.</div>`;
+	}
+	else {
+		return `<div class="placeholder">No music in <span class="result-hightlight">${currentGenre}</span> for now. Find bigger music world in other genres.</div>`;
+	}
+}
+
 
 // --- Functions ---
 function objToArr(obj) {
@@ -282,7 +310,7 @@ function search(input){
 	let result = [];
     input = changeFormat(input);
     for (let music of getGenre(currentGenre)) {
-		if (music.genre.toUpperCase() === input || music.album.toUpperCase() === input || music.artist.toUpperCase() === input || music.title.toUpperCase() === input ) {
+		if (music.album.toUpperCase().match(input) || music.artist.toUpperCase().match(input) || music.title.toUpperCase().match(input) ) {
             result.push(music);
 		}
 	}

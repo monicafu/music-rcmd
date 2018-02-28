@@ -103,8 +103,24 @@ nav {
 	transition: 0.3s;
 }
 
+.filter a::before {
+	content: '#';
+	color: rgba(0,0,0,0);
+	border-left: 5px solid #797979;
+	display: inline-block;
+	position: absolute;
+	left: 35px;
+	text-align: left;
+	transition: 0.2s;
+	opacity: 0;
+}
+
 .filter a:hover {
-	color: #878787;
+	color: #797979;
+}
+
+.filter a:hover::before {
+	opacity: 1;
 }
 
 /*Menu control medule*/
@@ -213,6 +229,18 @@ main {
 	display: block;
 	width: 100%;
 	margin: 0 auto;
+}
+
+.placeholder {
+	width: 60%;
+	margin: 10% auto;
+	color: #888;
+	text-align: center;
+	font-weight: bold;
+}
+
+.result-hightlight {
+	color: #333;
 }
 
 /* Actions module */
