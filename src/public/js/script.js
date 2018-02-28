@@ -86,6 +86,7 @@ function setStaticEventListener() {
 	// Search control
 	// elements.searchBar.addEventListener();
 	elements.searchBtn.addEventListener('click', searchHandler);
+	elements.searchBar.addEventListener('keydown', searchEnterHandler);
 	// Popup control
 	elements.popupMask.addEventListener('click', togglePopup);
 	elements.popupCloseBtn.addEventListener('click', togglePopup);
@@ -157,10 +158,10 @@ function resetSortBtn() {
 }
 
 function clearPopupInput() {
-	elements.inputTitle.value = '';
-	elements.inputArtist.value = '';
-	elements.inputAlbum.value = '';
-	elements.inputGenre.value = '';
+	elements.inputTitle.value = null;
+	elements.inputArtist.value = null;
+	elements.inputAlbum.value = null;
+	elements.inputGenre.value = null;
 }
 
 function clearSearchBar() {
@@ -226,9 +227,20 @@ function searchHandler() {
 	clearSearchBar();
 }
 
+function searchEnterHandler(event) {
+	if (event.keyCode === 13) {
+		searchHandler();
+	}
+}
+
 // --- Render definition ---
 function renderMusic(items) {  // items is an arr
 	let result = '';
+
+	if (items.length === 0) {
+		result = setPlaceholder();
+	}
+
 	for (let item of items) {
 		result += `<div class="item">
 			<img src="${item.image}" alt="${item.album}" />
@@ -252,6 +264,17 @@ function renderPopup(item) {  // item is an object
 	elements.inputArtist.setAttribute('placeholder', item.artist);
 	elements.inputAlbum.setAttribute('placeholder', item.album);
 	elements.inputGenre.setAttribute('placeholder', item.genre);
+}
+
+function setPlaceholder() {
+	const searchValue = elements.searchBar.value;
+
+	if (searchValue !== '') {
+		return `<div class="placeholder">No music/artist/album matches <i class="result-hightlight">${searchValue}</i> in <span class="result-hightlight">${currentGenre}</span>.</div>`;
+	}
+	else {
+		return `<div class="placeholder">No music in <span class="result-hightlight">${currentGenre}</span> for now. Try and find more music in other genres.</div>`;
+	}
 }
 
 // --- Functions ---

@@ -215,6 +215,18 @@ main {
 	margin: 0 auto;
 }
 
+.placeholder {
+	width: 60%;
+	margin: 10% auto;
+	color: #888;
+	text-align: center;
+	font-weight: bold;
+}
+
+.result-hightlight {
+	color: #333;
+}
+
 /* Actions module */
 .actions {
 	display: flex;
