@@ -4,6 +4,7 @@ let musicList = {};
 let currentGenre = 'All';
 let currentIdPopup = 1;
 
+
 // --- SAP initialization ---
 function initSAP(json) {
 	for (let i in json) {
@@ -45,6 +46,7 @@ const performGetRequest = () => {
 		console.log(error);
 	});
 };
+
 
 // --- Listener setting ---
 const elements = {
@@ -116,6 +118,7 @@ function resetPopupEventListener() {
 	elements.saveBtn.removeEventListener('click', saveHandler);
 	elements.deleteBtn.removeEventListener('click', deleteHandler);
 }
+
 
 // --- UI control ---
 function toggleMenu() {
@@ -233,6 +236,7 @@ function searchEnterHandler(event) {
 	}
 }
 
+
 // --- Render definition ---
 function renderMusic(items) {  // items is an arr
 	let result = '';
@@ -273,9 +277,10 @@ function setPlaceholder() {
 		return `<div class="placeholder">No music/artist/album matches <i class="result-hightlight">${searchValue}</i> in <span class="result-hightlight">${currentGenre}</span>.</div>`;
 	}
 	else {
-		return `<div class="placeholder">No music in <span class="result-hightlight">${currentGenre}</span> for now. Try and find more music in other genres.</div>`;
+		return `<div class="placeholder">No music in <span class="result-hightlight">${currentGenre}</span> for now. Find bigger music world in other genres.</div>`;
 	}
 }
+
 
 // --- Functions ---
 function objToArr(obj) {
@@ -305,7 +310,7 @@ function search(input){
 	let result = [];
     input = changeFormat(input);
     for (let music of getGenre(currentGenre)) {
-		if (music.genre.toUpperCase() === input || music.album.toUpperCase() === input || music.artist.toUpperCase() === input || music.title.toUpperCase() === input ) {
+		if (music.album.toUpperCase().match(input) || music.artist.toUpperCase().match(input) || music.title.toUpperCase().match(input) ) {
             result.push(music);
 		}
 	}
