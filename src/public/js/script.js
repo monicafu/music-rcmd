@@ -157,15 +157,16 @@ function resetSortBtn() {
 }
 
 function clearPopupInput() {
-	elements.inputTitle.value = null;
-	elements.inputArtist.value = null;
-	elements.inputTitle.value = null;
-	elements.inputGenre.value = null;
+	elements.inputTitle.value = '';
+	elements.inputArtist.value = '';
+	elements.inputAlbum.value = '';
+	elements.inputGenre.value = '';
 }
 
 function clearSearchBar() {
 	elements.searchBar.value = null;
 }
+
 
 // --- Event Listener Handler definitions ---
 function filterHandler(event) {
@@ -254,16 +255,6 @@ function renderPopup(item) {  // item is an object
 }
 
 // --- Functions ---
-// function getMusicObj(id) {
-// 	let result = {};
-// 	for (let music of musicList) {
-// 		if (music.id == id) {
-// 			result = music;
-// 		}
-// 	}
-// 	return result;
-// }
-
 function objToArr(obj) {
 	let arr = [];
 	for (let i in obj) {
