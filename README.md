@@ -177,6 +177,21 @@ This list will expand:
 * Feb 19, 11:59 pm - Have the initial design design concept in the /admin/design/ directory.  Have the /admin/roles.md file filled in.
 * Feb 26, 6:29 pm - Have JS, HTML, and CSS for both the front-end and the services in the /src/ directory (subdirectories are fine).  A package.json at your repo root should let me try the app with `npm install; npm start`.  The page should work well enough to be usable, but bugs are expected.
 * Mar 5 - Spring Break.  No deadline, but you should make sure you'll be able to make the Mar 12 deadline.
-* Mar 12 - To Be Announced
+* Mar 12, 6:29 pm  - Bugs are expected to be corrected.  The requirements of *Added Requirements* and *Modified Requirements* are complete.  All of this is in your master branch.
 
+## Ongoing Requirements
+
+### Added Requirements
+
+* Create a service call that returns an id that returns 1, 2, or 3.  Each call will return the number in the list after the previous number it sent, wrapping around to the beginning as needed.  So on the first call (from anywhere) it will return 1, and on the second call (from the same page or not) returns 2, then 3, then 1 again and so forth.  Do so as a POST, not a GET (be sure to understand why I'm saying that).
+* The page will, when the page is loaded, call the above fake id service.  This will simulate a login - on page load the user is considered "logged in".  On page reload the user is considered "logged in" as a different user;
+* The service may return this number inside whatever data structure you wish (e.g. it might return "2" or it could return "{ userId: 2 }")
+* The page will let the user know what their id for this page load is (example: text in the header "Welcome User 2!") 
+
+### Modified Requirements
+
+* Votes are now associated with the user id that cast them and persist between page reloads
+    * Because the logged in user changes with each page reload, it will take a few reloads to see the page as the same user
+    * Example: User 1 adds the song "Seasonal Cat Meows" and votes for it.  On page reload, the page displays as User 2.  User 2 will see the song and the effects of the vote, but is not considered to have voted for Seasonal Cat Meows themselves yet.  Another page reload and the same rules apply for User 3.  One more reload and the page will display as User 1, who cannot add a second vote to Seasonal Cat Meows.
+* Recommendations record which userid  added them and displays that.
 
