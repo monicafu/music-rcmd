@@ -36,6 +36,7 @@ const idGenerator = function* (num) {
     return;
 }(3);
 
+
 // --- Rounter ---
 app.get('/getUserData', function(req, res) {
     const id = idGenerator.next().value;
@@ -86,7 +87,7 @@ app.post('/getSaveData',function (req,res) {
 // --- Auxiliary functions ---
 // For future use
 function verifyUser(userData) {
-    console.log(`- verifying user${userData.id}...`);
+    console.log(`  verifying user${userData.id}...`);
     return true;
 }
 

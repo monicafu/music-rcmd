@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-// import './App.css';
 
 // Components imported here
 import Header from './Header';
 
 // Services functions
-import {callGetRequest, callPostRequest} from './services.js';
+import {callGetRequest, callPostRequest} from './script/services.js';
 
 class App extends Component {
     constructor(props) {
@@ -14,32 +13,28 @@ class App extends Component {
         	userData: {},
         	musicList: {},
             renderBuff: [],
-            currentGenre: 'All',
-            currentIdPopup: 1
+            currentGenre: 'All'
         };
     }
 
-    componentWillMount() {
-    	callGetRequest('/getUserData')
-    	.then( userData => {
-    		this.setState( {userData} );
-    		callPostRequest('/getMusic', userData)
-    		.then()	
-    	})
-    	
+    async componentDidMount() {
+        try {
+            const userData = await callGetRequest('/getUserData');
+            const musicList = await callPostRequest('/getMusic', {id: userData.id} );
+            await this.setState({
+                userData,
+                musicList
+            });
+        }
+        catch(error) {
+            console.log(error);
+        }
     }
-
-    loadData = async () => {
-    	const userData = await callGetRequest('/getUserData');
-    	const musicList = await callPostRequest('/getMusic');
-    }
-
-
 
     render() {
         return (
             <div className="App">
-            	<Header user={this.state.userData} />
+            	<Header userData={this.state.userData} />
             </div>
         );
     }

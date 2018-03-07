@@ -4,12 +4,13 @@ import React from 'react';
 import Search from './Search';
 import Login from './Login';
 
-const Header = ( {} ) => {
+const Header = ( {userData} ) => {
 
 	return (
 		<header>
+			<div className="blank-item">Placeholder</div>
 			<Search />
-			<Login />
+			<Login userData={userData}/>
 		</header>
 	);
 };
