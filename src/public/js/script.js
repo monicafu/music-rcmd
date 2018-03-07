@@ -7,45 +7,37 @@ let currentIdPopup = 1;
 
 
 // --- SAP initialization ---
-function initSAP(json) {
-	for (let i in json) {
-		json[i].upvoted = '';
-	}
-	musicList = json;
+function initSAP() {
 	updateRenderBuff(objToArr(musicList));
 	renderMusic();
+	renderLogin();
 	setStaticEventListener();
 }
 
-const callGetMusicJson = (url) => {
-	return fetch(url)
-	.then( response => {
-		if(response.ok) {
-			return response.json();
-		}
-		return Promise.reject('error-response-not-okay');
-	})
-	.catch((error) => {
-		if (error.toString().startsWith('error-')) {
-			return Promise.reject(error);
-		}
-		return Promise.reject('error-response-json-bad');
-	});
-};
-
-const createInitUrl = () => {
-	return '/getMusic';
+async function loadData() {
+	const user = await callGetRequest('/getUserData');
+	userData = await user;
+	const music = await callPostRequest('/getMusic', {id: user.id} );
+	musicList = music;
+	initSAP();
+	// console.log(userData);
+	// console.log(musicList);
 }
 
-const performGetRequest = () => {
-	const url = createInitUrl();
-	callGetMusicJson(url)
-	.then(fromJson => {
-		initSAP(fromJson);
+const callGetRequest = (url) => {
+	return fetch(url)
+	.then( res => res.ok? res.json() : Promise.reject(res.text()) )
+	.catch( error => Promise.reject('Get-failed') );
+};
+
+const callPostRequest = (url, data) => {
+	return fetch(url, {
+		method: 'POST',
+		body: JSON.stringify(data),
+		header: new Headers( {'Content-Type': 'application/json'} )
 	})
-	.catch( error => {
-		console.log(error);
-	});
+	.then( res => res.ok ? res.json() : Promise.reject(res.text()) )
+	.catch( error => Promise.reject('Post-failed') );
 };
 
 
@@ -76,7 +68,9 @@ const elements = {
 	searchBtn: document.querySelector('.search-btn'),
 	// Tool bar
 	rightBtn: document.querySelector('.right-btn'),
-	invertBtn: document.querySelector('.invert-btn')
+	invertBtn: document.querySelector('.invert-btn'),
+	// Login
+	login: document.querySelector('.login')
 };
 
 function setStaticEventListener() {
@@ -88,7 +82,6 @@ function setStaticEventListener() {
 		item.addEventListener('click', filterHandler);
 	}
 	// Search control
-	// elements.searchBar.addEventListener();
 	elements.searchBtn.addEventListener('click', searchHandler);
 	elements.searchBar.addEventListener('keydown', searchEnterHandler);
 	// Popup control
@@ -245,6 +238,10 @@ function searchEnterHandler(event) {
 
 
 // --- Render definition ---
+function renderLogin() {
+	elements.login.innerHTML += `${userData.name}`;
+}
+
 function renderMusic() {  // items is an arr
 	let result = '';
 
@@ -484,4 +481,4 @@ function postLikes(musicID, flag) {
     .catch(error => console.log('Error:'));
 }
 
-performGetRequest();
+loadData();

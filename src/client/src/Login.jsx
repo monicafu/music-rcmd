@@ -1,10 +1,9 @@
 import React from 'react';
 
-const Login = ({userName}) => {
+const Login = ({userData}) => {
 	return (
-		<div className="Login">
-			<div className="user-name">{userName}</div>
-			<div className="expand-icon">*</div>
+		<div className="login">
+			<div className="user-name">{userData.name}</div>
 		</div>
 	);
 }
