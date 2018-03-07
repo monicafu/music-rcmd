@@ -4,25 +4,60 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3001;
 
-app.use(bodyParser.json());
-app.use('',express.static('public'));
+app.use(express.static('public'));
+app.use(bodyParser.json({extended: true, type: '*/*'}));
 
 
 // --- Data ---
-const musiclist = require('./music.js');
-
+const musicList = require('./music.js');
+const userData = {
+    1: {
+        id: 1,
+        name: 'Justin',
+        likes: []
+    }, 
+    2: {
+        id: 2,
+        name: 'Taylor',
+        likes: []
+    }, 
+    3: {
+        id: 3,
+        name: 'Lauv',
+        likes: []
+    }
+};
+const idGenerator = function* (num) {
+    let id = 1;
+    while(true) {
+        yield id;
+        id = id % num + 1;
+    }
+    return;
+}(3);
 
 // --- Rounter ---
+app.get('/getUserData', function(req, res) {
+    const id = idGenerator.next().value;
+    console.log(`- user${id} is browsing`);
+    res.send(JSON.stringify(userData[id]));
+});
+
 /* Get all music list request */
-app.get('/getMusic', function(req, res) {
-    res.send(JSON.stringify(musiclist));
+app.post('/getMusic', function(req, res) {
+    if (verifyUser(req.body)) {
+        res.send(JSON.stringify(musicList));
+    }
+    else {
+        res.send(400,'User name or password invalid.');
+    }
 });
 
 /* Update votes request */
 app.post('/getVotes',function(req,res) {
-    console.log(req.body);
-    let id = req.body.id;
-    let isLiked = req.body.isliked;
+    // console.log(req.body);
+    const id = req.body.id;
+    const isLiked = req.body.isliked;
     if (id === 'error') {
         res.status(500).end();
     } else {
@@ -32,7 +67,7 @@ app.post('/getVotes',function(req,res) {
 
 /* Edit request */
 app.post('/getSaveData',function (req,res) {
-    console.log(req.body);
+    // console.log(req.body);
     const data = {
        id : req.body.id,
        title : req.body.title,
@@ -48,7 +83,14 @@ app.post('/getSaveData',function (req,res) {
     }
 });
 
-/* Logic of update the data on the server memory */
+// --- Auxiliary functions ---
+// For future use
+function verifyUser(userData) {
+    console.log(`- verifying user${userData.id}...`);
+    return true;
+}
+
+// --- Logic of update the data on the server memory ---
 function updateVotes(musicId,isLiked) {
     if (isLiked){
         musiclist[musicId].upvotes += 1;
