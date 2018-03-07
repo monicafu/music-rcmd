@@ -20,7 +20,7 @@ body.scroll-prevent {
 header {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: flex-end;
 	box-sizing: border-box;
 	height: 50px;
 	width: 100%;
@@ -39,7 +39,6 @@ header {
 	background-color: #f5f5f5;
 	border-radius: 5px 0 0 5px;
 	outline: none;
-	vertical-align: middle;
 	font-family: Helvetica;
 	font-size: 14px;
 }
@@ -51,7 +50,6 @@ header {
 	background-color: #f5f5f5;
 	border-radius: 0 5px 5px 0;
 	line-height: 0;
-	vertical-align: middle;
 	cursor: pointer;
 }
 
@@ -61,11 +59,6 @@ header {
 
 .search-btn:hover svg {
 	fill: #333;
-}
-
-.blank-item {
-	width: 93.51;
-	color: rgba(0,0,0,0);
 }
 
 /* Side navigation (Filter) */
