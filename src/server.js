@@ -9,24 +9,8 @@ app.use(bodyParser.json({extended: true, type: '*/*'}));
 
 
 // --- Data ---
-const musicList = require('./music.js');
-const userData = {
-    1: {
-        id: 1,
-        name: 'Justin',
-        likes: []
-    }, 
-    2: {
-        id: 2,
-        name: 'Taylor',
-        likes: []
-    }, 
-    3: {
-        id: 3,
-        name: 'Lauv',
-        likes: []
-    }
-};
+let musicList = require('./music.js');
+let userData = require('./user.js');
 const idGenerator = function* (num) {
     let id = 1;
     while(true) {
@@ -37,90 +21,91 @@ const idGenerator = function* (num) {
 }(3);
 
 
+// --- Services functions ---
+const {verifyUser} = require('./service.js');
+
+
 // --- Rounter ---
+/* Get user request */
 app.get('/getUserData', function(req, res) {
     const id = idGenerator.next().value;
-    console.log(`- user${id} is browsing`);
-    res.send(JSON.stringify(userData[id]));
+    console.log(`-- user${id} is browsing`);
+    res.status(200).send( JSON.stringify(userData[id]) );
 });
 
-/* Get all music list request */
+/* Get music list request */
 app.post('/getMusic', function(req, res) {
-    if (verifyUser(req.body)) {
-        res.send(JSON.stringify(musicList));
+    const data = req.body;
+
+    if (verifyUser(data)) {
+        res.status(200).send( JSON.stringify(musicList) );
     }
     else {
-        res.send(400,'User name or password invalid.');
+        res.status(400).send( {"msg": "user-name-or-password-invalid" } );
     }
 });
 
 /* Update votes request */
-app.post('/getVotes',function(req,res) {
-    // console.log(req.body);
-    const id = req.body.id;
-    const isLiked = req.body.isliked;
-    if (id === 'error') {
-        res.status(500).end();
+app.post('/updateUpvote', function(req, res) {
+    const data = req.body;
+    console.log(' * Update upvote ' + data.id);
+
+    if (data.id === 'error') {
+        res.status(500).send( {"msg": "update-upvote-fails"} );
     } else {
-        updateVotes(id,isLiked);
+        updateUpvote(data);
+        res.status(200).send( {"msg": "update-upvote-succeeds"} );
     }
 });
 
 /* Edit request */
-app.post('/getSaveData',function (req,res) {
-    // console.log(req.body);
-    const data = {
-       id : req.body.id,
-       title : req.body.title,
-       artist : req.body.artist,
-       album : req.body.album,
-       genre : req.body.genre
-    };
+app.post('/updateMusic', function (req, res) {
+    const data = req.body;
+    console.log(' * Update music ' + data.id);
 
     if (data.id === 'error') {
-        res.status(500).end();
+        res.status(500).send( {"msg": "update-music-fails"} );
     } else {
         updateMusic(data);
+        res.status(200).send( {"msg": "update-music-succeeds"} );
     }
 });
 
-// --- Auxiliary functions ---
-// For future use
-function verifyUser(userData) {
-    console.log(`  verifying user${userData.id}...`);
-    return true;
-}
+/* Delete request */
+app.post('/deleteMusic',function (req, res){
+    const data = req.body;
+    console.log(' * Delete music ' + data.id);
+
+    if (data.id === 'error') {
+        res.status(500).send( {"msg": "delete-music-fails"} );
+    } else {
+        deleteMusic(data.id);
+        res.status(200).send( {"msg": "delete-music-succeeds"} );
+    }
+})
+
 
 // --- Logic of update the data on the server memory ---
-function updateVotes(musicId,isLiked) {
+function updateUpvote( {id, isLiked, userId} ) {
     if (isLiked){
-        musiclist[musicId].upvotes += 1;
+        userData[userId].like.push(id);
+        musicList[id].upvote++;
     }else{
-        musiclist[musicId].upvotes -= 1;
+        userData[userId].like.splice(userData[userId].like.indexOf(id), 1);
+        musicList[id].upvote--;
     }
-    //console.log(`musicId is ${musiclist[musicId].id} and votes now is ${musiclist[musicId].upvotes}`);
 }
 
 function updateMusic(music) {
-    musiclist[music.id].title = music.title;
-    musiclist[music.id].artist = music.artist;
-    musiclist[music.id].album = music.album;
-    musiclist[music.id].genre = music.genre;
-    //console.log(musiclist);
+    musicList[music.id].title = music.title;
+    musicList[music.id].artist = music.artist;
+    musicList[music.id].album = music.album;
+    musicList[music.id].genre = music.genre;
 }
 
 function deleteMusic(musicId) {
-    delete musiclist[musicId];
-    //console.log(musiclist);
+    delete musicList[musicId];
 }
-
-/* Test */
-app.get('/test', function(req, res) {
-	res.send({
-		express: "Hello from express"
-	});
-});
-
 
 // --- Lisener ---
 app.listen(PORT, () => {

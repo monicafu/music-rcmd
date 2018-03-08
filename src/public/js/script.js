@@ -1,5 +1,5 @@
-
 // --- Global ---
+let userData = {};
 let musicList = {};
 let renderBuff = [];
 let currentGenre = 'All';
@@ -8,6 +8,7 @@ let currentIdPopup = 1;
 
 // --- SAP initialization ---
 function initSAP() {
+	console.log(userData);
 	updateRenderBuff(objToArr(musicList));
 	renderMusic();
 	renderLogin();
@@ -16,12 +17,10 @@ function initSAP() {
 
 async function loadData() {
 	const user = await callGetRequest('/getUserData');
-	userData = await user;
 	const music = await callPostRequest('/getMusic', {id: user.id} );
+	userData = user;
 	musicList = music;
 	initSAP();
-	// console.log(userData);
-	// console.log(musicList);
 }
 
 const callGetRequest = (url) => {
@@ -104,7 +103,7 @@ function setItemEventListener() {
 	}
 }
 
-function setPopupEventListener() {		// id is music id
+function setPopupEventListener() {	
 	elements.saveBtn.addEventListener('click', saveHandler);
 	elements.deleteBtn.addEventListener('click', deleteHandler);
 }
@@ -132,9 +131,9 @@ function switchGenre(anchor) {
 	}
 }
 
-function toggleUpvote(upvote) {
-	upvote.classList.toggle('upvoted');
-}
+// function toggleUpvote(upvote) {
+// 	upvote.classList.toggle('upvoted');
+// }
 
 function togglePopup() {
 	elements.popupContainer.classList.toggle('popup-container-change');
@@ -180,7 +179,7 @@ function filterHandler(event) {
 function upvoteHandler(event) {
 	const id = event.target.getAttribute('data-id');
 	upvoteMusicFromBuff(upvoteMusic(id));
-	toggleUpvote(event.target);
+	// toggleUpvote(event.target);
 	renderMusic();
 }
 
@@ -254,8 +253,8 @@ function renderMusic() {  // items is an arr
 			<img src="${item.image}" alt="${item.album}" />
 			<div class="actions">
 				<div class="upvote-module">
-					<div class="upvote ${item.upvoted}" data-id="${item.id}"></div>
-					<span class="upvote-tip">${item.upvotes} likes</span>
+					<div class="upvote ${ userData.like.indexOf(item.id) < 0 ? '': 'upvoted' }" data-id="${item.id}"></div>
+					<span class="upvote-tip">${item.upvote} likes</span>
 				</div>
 				<div class="edit" data-id="${item.id}"></div>
 			</div>
@@ -301,8 +300,8 @@ function saveMusicFromBuff(music) {
 	renderBuff[index] = music;
 }
 
-function deleteMusicFromBuff(musicID) {
-	const index = getIndexInBuff(musicID);
+function deleteMusicFromBuff(musicId) {
+	const index = getIndexInBuff(musicId);
 	renderBuff.splice(index, 1);
 }
 
@@ -323,11 +322,10 @@ function objToArr(obj) {
 
 function getIndexInBuff(id) {
 	for (let i in renderBuff) {
-		if (renderBuff[i].id == id) {
+		if (id === renderBuff[i].id) {
 			return i;
 		}
 	}
-
 	return -1;
 }
 
@@ -358,14 +356,16 @@ function search(input){
 }
 
 function changeFormat(input){
-    let res = "";
-    for(let i = 0; i < input.length;i++){
-        if(input[i] !== " "){
-            res += input[i];
+    let result = "";
+    for (let i = 0; i < input.length; i++){
+        if (input[i] !== " ") {
+            result += input[i];
         }
-        else{i++;}
+        else {
+        	i++;
+        }
     }
-    return res.toUpperCase();
+    return result.toUpperCase();
 }
 
 //   ture: lowTohigh;  false: highToLow;
@@ -379,20 +379,20 @@ function sort(music, TOrF){
 function lowTohigh(music){
     for(let i = 0; i < music.length; i++){
         for(let j = i+1; j < music.length; j++){
-        if(music[i].upvotes > music[j].upvotes) {
+        if(music[i].upvote > music[j].upvote) {
             let temp = music[i];
             music[i] = music[j];
             music[j] = temp;
             }
         }
     }
-        return music;
+    return music;
 }
 
 // Edit music infomation
-function saveMusic(musicID) {
+function saveMusic(musicId) {
     for (let i in musicList) {
-        if (i == musicID) {
+        if (i == musicId) {
         	if (elements.inputTitle.value) {
            		musicList[i].title = elements.inputTitle.value;
         	}
@@ -411,7 +411,7 @@ function saveMusic(musicID) {
 }
 
 function postSaveData(music) {
-    let data = {
+    const data = {
     	id: music.id,
         title : music.title,
         artist : music.artist,
@@ -419,66 +419,61 @@ function postSaveData(music) {
         genre : music.genre
     };
 
-    fetch('/getSaveData', {
+    fetch('/updateMusic', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: new Headers({'Content-Type': 'application/json'})
     })
     .then(response => response.ok ? response.json() : Promise.reject(response.status))
-    // TEST ONLY
-    .then(print => console.log(print))
-    .catch(error => console.log('Error:'));
+    .catch(error => console.log('Error: ' + error));
 }
 
-function deleteMusic(musicID) {
-	postDeleteData(musicID);
-	delete musicList[musicID];
+function deleteMusic(musicId) {
+	postDeleteData(musicId);
+	delete musicList[musicId];
 }
 
-function postDeleteData(musicID) {
-    let data = {id : musicID};
+function postDeleteData(musicId) {
+    let data = {id : musicId};
 
-    fetch('/getDeleteData', {
+    fetch('/deleteMusic', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: new Headers({'Content-Type': 'application/json'})
     })
     .then(response => response.ok ? response.json() : Promise.reject(response.status))
-    // TEST ONLY
-    //.then(print => console.log(print))
-    .catch(error => console.log('Error:'));
+    .catch(error => console.log('Error: ' + error));
 }
 
-function upvoteMusic(musicID) {
+function upvoteMusic(musicId) {
     for (let i in musicList) {
-        if (i === musicID) {
-            if (musicList[i].upvoted === '') {
-                musicList[i].upvotes += 1;
-                postLikes(musicID, true);
-                musicList[i].upvoted = 'upvoted';
-            } else if (musicList[i].upvoted === 'upvoted') {
-                musicList[i].upvotes -= 1;
-                postLikes(musicID, false);
-                musicList[i].upvoted = '';
+        if (i === musicId) {
+        	let index = userData.like.indexOf(musicId);
+            if (index < 0) {
+                musicList[i].upvote++;
+                userData.like.push(musicId);
+                postLikes(musicId, true, userData.id);
+            } else {
+                musicList[i].upvote--;
+                userData.like.splice(index, 1);
+                postLikes(musicId, false, userData.id);
             }
 
-            return musicList[musicID];
+            return musicList[musicId];
         }
     }
 }
 
-function postLikes(musicID, flag) {
-    let data = { id : musicID , isliked : flag };
+function postLikes(musicId, flag, userId) {
+    let data = { id : musicId , isLiked : flag , userId: userId};
 
-    fetch('/getVotes', {
+    fetch('/updateUpvote', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: new Headers({'Content-Type': 'application/json'})
     })
     .then(response => response.ok ? response.json() : Promise.reject(response.status))
-    // TEST ONLY
-    // .then(print => console.log(print))
-    .catch(error => console.log('Error:'));
+    .catch(error => console.log('Error: ' + error));
 }
 
 loadData();
