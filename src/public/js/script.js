@@ -59,6 +59,7 @@ const elements = {
 	inputAlbum: document.querySelector('#album'),
 	selectGenre: document.querySelector('#genre'),
 	optionsGenre: document.querySelector('#genre').options,
+	inputProvider: document.querySelector('#provider'),
 	// Popup actions
 	saveBtn: document.querySelector('.save'),
 	deleteBtn: document.querySelector('.delete'),
@@ -276,6 +277,7 @@ function renderPopup() {
 			elements.optionsGenre[i].selected = true;
 		}
 	}
+	elements.inputProvider.innerHTML = `Provided by <b>${item.provider}</b>`;
 }
 
 function setPlaceholder() {
