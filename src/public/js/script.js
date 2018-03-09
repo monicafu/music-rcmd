@@ -59,6 +59,7 @@ const elements = {
 	inputAlbum: document.querySelector('#album'),
 	selectGenre: document.querySelector('#genre'),
 	optionsGenre: document.querySelector('#genre').options,
+	inputProvider: document.querySelector('#provider'),
 	// Popup actions
 	saveBtn: document.querySelector('.save'),
 	deleteBtn: document.querySelector('.delete'),
@@ -69,7 +70,7 @@ const elements = {
 	rightBtn: document.querySelector('.right-btn'),
 	invertBtn: document.querySelector('.invert-btn'),
 	// Login
-	login: document.querySelector('.login')
+	userName: document.querySelector('.user-name')
 };
 
 function setStaticEventListener() {
@@ -238,7 +239,7 @@ function searchEnterHandler(event) {
 
 // --- Render definition ---
 function renderLogin() {
-	elements.login.innerHTML += `${userData.name}`;
+	elements.userName.innerHTML += `${userData.name}`;
 }
 
 function renderMusic() {  // items is an arr
@@ -276,6 +277,7 @@ function renderPopup() {
 			elements.optionsGenre[i].selected = true;
 		}
 	}
+	elements.inputProvider.innerHTML = `Provided by <b>${item.provider}</b>`;
 }
 
 function setPlaceholder() {
@@ -379,7 +381,7 @@ function sort(music, TOrF){
 function lowTohigh(music){
     for(let i = 0; i < music.length; i++){
         for(let j = i+1; j < music.length; j++){
-        if(music[i].upvote > music[j].upvote) {
+        if(parseInt(music[i].upvote) > parseInt(music[j].upvote)) {
             let temp = music[i];
             music[i] = music[j];
             music[j] = temp;

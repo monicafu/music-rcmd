@@ -6,7 +6,8 @@ const musicList = {
             "album": "All The Right Reasons",
             "image":  "images/all-the-right-reasons.jpg",
             "genre": "Rock",
-            "upvote": "10"
+            "upvote": "10",
+            "provider": "System"
         },
         "2": {
             "id": "2",
@@ -15,7 +16,8 @@ const musicList = {
             "album": "All Time Greatest Hits",
             "image":  "images/all-time-greatest-hits.jpg",
             "genre": "Jazz",
-            "upvote": "5"
+            "upvote": "5",
+            "provider": "System"
         },
         "3": {
             "id": "3",
@@ -24,7 +26,8 @@ const musicList = {
             "album": "Angels And Alcohol",
             "image":  "images/angle-and-alcohol.jpg",
             "genre": "Country",
-            "upvote": "2"
+            "upvote": "2",
+            "provider": "System"
         },
         "4": {
             "id": "4",
@@ -33,7 +36,8 @@ const musicList = {
             "album": "Attention",
             "image":  "images/attention.jpg",
             "genre": "Pop",
-            "upvote": "0"
+            "upvote": "0",
+            "provider": "System"
         },
         "5": {
             "id": "5",
@@ -42,7 +46,8 @@ const musicList = {
             "album": "Darkness And Light",
             "image":  "images/darkness-and-light.jpg",
             "genre": "R&B",
-            "upvote": "1"
+            "upvote": "1",
+            "provider": "System"
         },
         "6": {
             "id": "6",
@@ -51,7 +56,8 @@ const musicList = {
             "album": "I Knew You Were Trouble",
             "image":  "images/i-knew-you-were-trouble.jpg",
             "genre": "Country",
-            "upvote": "4"
+            "upvote": "4",
+            "provider": "System"
         },
         "7": {
             "id": "7",
@@ -60,7 +66,8 @@ const musicList = {
             "album": "Man Of The Woods",
             "image":  "images/man-of-the-woods.jpg",
             "genre": "Pop",
-            "upvote": "7"
+            "upvote": "7",
+            "provider": "System"
         },
         "8": {
             "id": "8",
@@ -69,7 +76,8 @@ const musicList = {
             "album": "Maps",
             "image":  "images/maps.jpg",
             "genre": "Pop",
-            "upvote": "12"
+            "upvote": "12",
+            "provider": "System"
         },
         "9": {
             "id": "9",
@@ -78,7 +86,8 @@ const musicList = {
             "album": "Minutes To Midnight",
             "image":  "images/minutes-to-midnight.jpg",
             "genre": "Rock",
-            "upvote": "2"
+            "upvote": "2",
+            "provider": "System"
         },
         "10": {
             "id": "10",
@@ -87,7 +96,8 @@ const musicList = {
             "album": "News Of The World",
             "image":  "images/news-of-the-world.jpg",
             "genre": "Rock",
-            "upvote": "5"
+            "upvote": "5",
+            "provider": "System"
         },
         "11": {
             "id": "11",
@@ -96,7 +106,8 @@ const musicList = {
             "album": "Royalty",
             "image":  "images/royalty.jpg",
             "genre": "R&B",
-            "upvote": "3"
+            "upvote": "3",
+            "provider": "System"
         },
         "12": {
             "id": "12",
@@ -105,7 +116,8 @@ const musicList = {
             "album": "Save Rock And Roll",
             "image":  "images/save-rock-and-roll.jpg",
             "genre": "Pop",
-            "upvote": "2"
+            "upvote": "2",
+            "provider": "System"
         },
         "13": {
             "id": "13",
@@ -114,7 +126,8 @@ const musicList = {
             "album": "Say Something",
             "image":  "images/say-something.jpg",
             "genre": "Pop",
-            "upvote": "5"
+            "upvote": "5",
+            "provider": "System"
         },
         "14": {
             "id": "14",
@@ -123,7 +136,8 @@ const musicList = {
             "album": "Songs From The Arc Of Life",
             "image":  "images/songs-from-the-arc-of-life.jpg",
             "genre": "Classical",
-            "upvote": "7"
+            "upvote": "7",
+            "provider": "System"
         },
         "15": {
             "id": "15",
@@ -132,7 +146,8 @@ const musicList = {
             "album": "THE E.N.D",
             "image":  "images/the-end.jpg",
             "genre": "R&B",
-            "upvote": "8"
+            "upvote": "8",
+            "provider": "System"
         },
         "16": {
             "id": "16",
@@ -141,7 +156,8 @@ const musicList = {
             "album": "The Essential Kenny G",
             "image":  "images/the-essential-kenny-g.jpg",
             "genre": "Jazz",
-            "upvote": "9"
+            "upvote": "9",
+            "provider": "System"
         },
         "17": {
             "id": "17",
@@ -150,7 +166,8 @@ const musicList = {
             "album": "The Metallica Collection",
             "image":  "images/the-metallica-collection.jpg",
             "genre": "Metal",
-            "upvote": "4"
+            "upvote": "4",
+            "provider": "System"
         },
         "18": {
             "id": "18",
@@ -159,7 +176,8 @@ const musicList = {
             "album": "Trackside Blues",
             "image":  "images/trackside-blues.jpg",
             "genre": "Blues",
-            "upvote": "6"
+            "upvote": "6",
+            "provider": "System"
         },
         "19": {
             "id": "19",
@@ -168,7 +186,8 @@ const musicList = {
             "album": "We Sing We Dance We Steal Things",
             "image":  "images/we-sing-we-dance-we-steal-things.jpg",
             "genre": "Country",
-            "upvote": "10"
+            "upvote": "10",
+            "provider": "System"
         },
         "20": {
             "id": "20",
@@ -177,7 +196,8 @@ const musicList = {
             "album": "X-Rays",
             "image":  "images/x-rays.jpg",
             "genre": "Hip-Pop",
-            "upvote": "4"
+            "upvote": "4",
+            "provider": "System"
         }};
 
 module.exports = musicList;
