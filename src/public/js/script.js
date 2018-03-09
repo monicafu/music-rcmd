@@ -69,7 +69,7 @@ const elements = {
 	rightBtn: document.querySelector('.right-btn'),
 	invertBtn: document.querySelector('.invert-btn'),
 	// Login
-	login: document.querySelector('.login')
+	userName: document.querySelector('.user-name')
 };
 
 function setStaticEventListener() {
@@ -238,7 +238,7 @@ function searchEnterHandler(event) {
 
 // --- Render definition ---
 function renderLogin() {
-	elements.login.innerHTML += `${userData.name}`;
+	elements.userName.innerHTML += `${userData.name}`;
 }
 
 function renderMusic() {  // items is an arr
@@ -379,7 +379,7 @@ function sort(music, TOrF){
 function lowTohigh(music){
     for(let i = 0; i < music.length; i++){
         for(let j = i+1; j < music.length; j++){
-        if(music[i].upvote > music[j].upvote) {
+        if(parseInt(music[i].upvote) > parseInt(music[j].upvote)) {
             let temp = music[i];
             music[i] = music[j];
             music[j] = temp;

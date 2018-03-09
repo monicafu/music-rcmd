@@ -34,6 +34,7 @@ header {
 .search {
 	flex-grow: 1;
 	text-align: center;
+	vertical-align: middle;
 }
 
 .search-bar {
@@ -70,18 +71,107 @@ header {
 
 .login {
 	flex-grow: 1;
-	color: #333;
 	text-align: right;
+	position: relative;
+}
+
+.dropdown {
+	display: inline-block;
+	position: relative;
+}
+
+.user-name {
+	position: relative;
+	margin-right: 5px;
+	color: #333;
+	vertical-align: middle;
 	cursor: pointer;
 }
 
-.login:hover {
-	color: #878787;
+.user-name::before {
+	content: '';
+	position: absolute;
+	width: 8px;
+	height: 3px;
+	left: 100%;
+	top: 50%;
+	border-radius: 2px;
+	background-color: #333;
+	vertical-align: middle;
+	transform: rotate(-45deg) translate(-3px, -3px);
+	transition: 0.1s 0.2s;
+}
+
+.user-name::after {
+	content: '';
+	display: inline-block;
+	width: 8px;
+	height: 3px;
+	left: 100%;
+	top: 50%;
+	margin-left: 5px;
+	border-radius: 2px;
+	background-color: #333;
+	vertical-align: middle;
+	transform: rotate(45deg);
+	transition: 0.1s 0.2s;
+}
+
+.dropdown:hover .user-name::before {
+	transform: rotate(45deg) translate(-3px, 3px);
+}
+.dropdown:hover .user-name::after {
+	transform: rotate(-45deg);
+}
+
+.login-content {
+	padding: 6px 15px 8px;
+	position: absolute;
+	top: 100%;
+	right: 0;
+	border-radius: 3px;
+	box-shadow: 1px 2px 5px rgba(0,0,0,0.2);
+	background-color: white;
+	text-align: left;
+	overflow: hidden;
+	transition: 0.1s 0.2s;
+	transform: scaleY(0);
+	transform-origin: top;
+}
+
+.login-content a {
+	display: block;
+	position: relative;
+	padding-bottom: 5px;
+	color: #333;
+	text-decoration: none;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.login-content a::before {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	bottom: 0;
+	left: 0;
+	border-radius: 1px;
+	background-color: #333;
+	transform: scaleX(0);
+	transition: 0.2s ease-in-out;
+}
+
+.login-content a:hover::before {
+	transform: scaleX(1);
+}
+
+.dropdown:hover .login-content {
+	transform: scaleY(1);
 }
 
 .blank-item {
 	flex-grow: 1;
-	width: 93.51;
 	color: rgba(0,0,0,0);
 	text-align: left;
 }
@@ -161,16 +251,13 @@ nav {
 	cursor: pointer;
 }
 
-.bar1, .bar2, .bar3 {
+ .menu-btn .bar1, .menu-btn .bar2, .menu-btn .bar3 {
 	width: 30px;
 	height: 5px;
 	background-color: #333;
 	margin: 5px 0;
 	border-radius: 3px;
 	transition: 0.2s;
-}
-
-.menu-btn:hover .bar1, .menu-btn:hover .bar2, .menu-btn:hover .bar3 {
 }
 
 .btn-change .bar1 {
