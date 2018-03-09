@@ -284,10 +284,20 @@ nav {
 
 /*Tool bar*/
 .tool-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	padding: 5px 35px;
 	margin-top: 50px;
-	text-align: right;
-	vertical-align: middle;
+}
+
+.upload {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.upload:hover svg {
+	fill: #797979;
 }
 
 .sort-btn {

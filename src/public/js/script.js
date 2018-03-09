@@ -49,24 +49,29 @@ const elements = {
 	nav: document.querySelector('nav'),
 	filterItems: document.querySelectorAll('.filter a'),
 	genreTip: document.querySelector('.genre-tip'),
-	// Popup control
-	popupContainer: document.querySelector('.popup-container'),
-	popupMask: document.querySelector('.popup-mask'),
-	popupCloseBtn: document.querySelector('.popup .close-btn'),
-	// Popup fields
-	inputTitle: document.querySelector('#title'),
-	inputArtist: document.querySelector('#artist'),
-	inputAlbum: document.querySelector('#album'),
-	selectGenre: document.querySelector('#genre'),
-	optionsGenre: document.querySelector('#genre').options,
-	inputProvider: document.querySelector('#provider'),
-	// Popup actions
+	// Edit popup control
+	popupContainerEdit: document.querySelector('#edit-popup.popup-container'),
+	popupMaskEdit: document.querySelector('#edit-popup .popup-mask'),
+	popupCloseBtnEdit: document.querySelector('#edit-popup .close-btn'),
+	// Edit popup fields
+	inputTitleEdit: document.querySelector('#title-edit'),
+	inputArtistEdit: document.querySelector('#artist-edit'),
+	inputAlbumEdit: document.querySelector('#album-edit'),
+	selectGenreEdit: document.querySelector('#genre-edit'),
+	optionsGenreEdit: document.querySelector('#genre-edit').options,
+	inputProviderEdit: document.querySelector('#provider'),
+	// Edit popup actions
 	saveBtn: document.querySelector('.save'),
 	deleteBtn: document.querySelector('.delete'),
+	// Upload popup control
+	popupContainerUpload: document.querySelector('#upload-popup.popup-container'),
+	popupMaskUpload: document.querySelector('#upload-popup .popup-mask'),
+	popupCloseBtnUpload: document.querySelector('#upload-popup .close-btn'),
 	// Search bar
 	searchBar: document.querySelector('.search-bar'),
 	searchBtn: document.querySelector('.search-btn'),
 	// Tool bar
+	upload: document.querySelector('.upload'),
 	rightBtn: document.querySelector('.right-btn'),
 	invertBtn: document.querySelector('.invert-btn'),
 	// Login
@@ -84,10 +89,14 @@ function setStaticEventListener() {
 	// Search control
 	elements.searchBtn.addEventListener('click', searchHandler);
 	elements.searchBar.addEventListener('keydown', searchEnterHandler);
-	// Popup control
-	elements.popupMask.addEventListener('click', togglePopup);
-	elements.popupCloseBtn.addEventListener('click', togglePopup);
-	// Tool-bar actions
+	// Edit popup control
+	elements.popupMaskEdit.addEventListener('click', toggleEditPopup);
+	elements.popupCloseBtnEdit.addEventListener('click', toggleEditPopup);
+	// Upload popup control
+	elements.upload.addEventListener('click', toggleUploadPopup);
+	elements.popupMaskUpload.addEventListener('click', toggleUploadPopup);
+	elements.popupCloseBtnUpload.addEventListener('click', toggleUploadPopup);
+	// Sort by
 	elements.rightBtn.addEventListener('click', sortHandler);
 	elements.invertBtn.addEventListener('click', sortHandler);
 }
@@ -104,12 +113,12 @@ function setItemEventListener() {
 	}
 }
 
-function setPopupEventListener() {	
+function setEditPopupEventListener() {	
 	elements.saveBtn.addEventListener('click', saveHandler);
 	elements.deleteBtn.addEventListener('click', deleteHandler);
 }
 
-function resetPopupEventListener() {
+function resetEditPopupEventListener() {
 	elements.saveBtn.removeEventListener('click', saveHandler);
 	elements.deleteBtn.removeEventListener('click', deleteHandler);
 }
@@ -136,8 +145,12 @@ function switchGenre(anchor) {
 // 	upvote.classList.toggle('upvoted');
 // }
 
-function togglePopup() {
-	elements.popupContainer.classList.toggle('popup-container-change');
+function toggleEditPopup() {
+	elements.popupContainerEdit.classList.toggle('popup-container-change');
+}
+
+function toggleUploadPopup() {
+	elements.popupContainerUpload.classList.toggle('popup-container-change');
 }
 
 function toggleRightBtn() {
@@ -155,10 +168,10 @@ function resetSortBtn() {
 	elements.invertBtn.classList.remove('invert-btn-change');
 }
 
-function clearPopupInput() {
-	elements.inputTitle.value = null;
-	elements.inputArtist.value = null;
-	elements.inputAlbum.value = null;
+function clearEditPopupInput() {
+	elements.inputTitleEdit.value = null;
+	elements.inputArtistEdit.value = null;
+	elements.inputAlbumEdit.value = null;
 }
 
 function clearSearchBar() {
@@ -189,12 +202,12 @@ function editHandler(event) {
 	const id = event.target.getAttribute('data-id');
 	currentIdPopup = id;
 	renderPopup();
-	togglePopup();
+	toggleEditPopup();
 	// Reset save and delete listeners
-	resetPopupEventListener();
+	resetEditPopupEventListener();
 	// Add new save and delete listeners
-	setPopupEventListener();
-	clearPopupInput();
+	setEditPopupEventListener();
+	clearEditPopupInput();
 }
 
 function sortHandler(event) {
@@ -213,14 +226,14 @@ function sortHandler(event) {
 function saveHandler() {
 	saveMusicFromBuff(saveMusic(currentIdPopup));
 	renderMusic();
-	togglePopup();
+	toggleEditPopup();
 }
 
 function deleteHandler() {
 	deleteMusic(currentIdPopup);
 	deleteMusicFromBuff(currentIdPopup);
 	renderMusic();
-	togglePopup();
+	toggleEditPopup();
 }
 
 function searchHandler() {
@@ -269,15 +282,15 @@ function renderMusic() {  // items is an arr
 
 function renderPopup() { 
 	const item = musicList[currentIdPopup];
-	elements.inputTitle.setAttribute('placeholder', item.title);
-	elements.inputArtist.setAttribute('placeholder', item.artist);
-	elements.inputAlbum.setAttribute('placeholder', item.album);
-	for (let i in elements.optionsGenre) {
-		if (elements.optionsGenre[i].value === item.genre) {
-			elements.optionsGenre[i].selected = true;
+	elements.inputTitleEdit.setAttribute('placeholder', item.title);
+	elements.inputArtistEdit.setAttribute('placeholder', item.artist);
+	elements.inputAlbumEdit.setAttribute('placeholder', item.album);
+	for (let i in elements.optionsGenreEdit) {
+		if (elements.optionsGenreEdit[i].value === item.genre) {
+			elements.optionsGenreEdit[i].selected = true;
 		}
 	}
-	elements.inputProvider.innerHTML = `Provided by <b>${item.provider}</b>`;
+	elements.inputProviderEdit.innerHTML = `Provided by <b>${item.provider}</b>`;
 }
 
 function setPlaceholder() {
@@ -395,16 +408,16 @@ function lowTohigh(music){
 function saveMusic(musicId) {
     for (let i in musicList) {
         if (i == musicId) {
-        	if (elements.inputTitle.value) {
-           		musicList[i].title = elements.inputTitle.value;
+        	if (elements.inputTitleEdit.value) {
+           		musicList[i].title = elements.inputTitleEdit.value;
         	}
-        	if (elements.inputArtist.value) {
-            	musicList[i].artist = elements.inputArtist.value;
+        	if (elements.inputArtistEdit.value) {
+            	musicList[i].artist = elements.inputArtistEdit.value;
        		}
-       		if (elements.inputAlbum.value) {
-            	musicList[i].album = elements.inputAlbum.value;
+       		if (elements.inputAlbumEdit.value) {
+            	musicList[i].album = elements.inputAlbumEdit.value;
        		}
-       		musicList[i].genre = elements.optionsGenre[elements.selectGenre.selectedIndex].value;
+       		musicList[i].genre = elements.optionsGenreEdit[elements.selectGenreEdit.selectedIndex].value;
        		postSaveData(musicList[i]);
 
    			return musicList[i];
