@@ -7,7 +7,8 @@ const musicList = {
             "image":  "images/all-the-right-reasons.jpg",
             "genre": "Rock",
             "upvote": "10",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "2": {
             "id": "2",
@@ -17,7 +18,8 @@ const musicList = {
             "image":  "images/all-time-greatest-hits.jpg",
             "genre": "Jazz",
             "upvote": "5",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "3": {
             "id": "3",
@@ -27,7 +29,8 @@ const musicList = {
             "image":  "images/angle-and-alcohol.jpg",
             "genre": "Country",
             "upvote": "2",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "4": {
             "id": "4",
@@ -37,7 +40,8 @@ const musicList = {
             "image":  "images/attention.jpg",
             "genre": "Pop",
             "upvote": "0",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "5": {
             "id": "5",
@@ -47,7 +51,8 @@ const musicList = {
             "image":  "images/darkness-and-light.jpg",
             "genre": "R&B",
             "upvote": "1",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "6": {
             "id": "6",
@@ -57,7 +62,8 @@ const musicList = {
             "image":  "images/i-knew-you-were-trouble.jpg",
             "genre": "Country",
             "upvote": "4",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "7": {
             "id": "7",
@@ -67,7 +73,8 @@ const musicList = {
             "image":  "images/man-of-the-woods.jpg",
             "genre": "Pop",
             "upvote": "7",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "8": {
             "id": "8",
@@ -77,7 +84,8 @@ const musicList = {
             "image":  "images/maps.jpg",
             "genre": "Pop",
             "upvote": "12",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "9": {
             "id": "9",
@@ -87,7 +95,8 @@ const musicList = {
             "image":  "images/minutes-to-midnight.jpg",
             "genre": "Rock",
             "upvote": "2",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "10": {
             "id": "10",
@@ -97,7 +106,8 @@ const musicList = {
             "image":  "images/news-of-the-world.jpg",
             "genre": "Rock",
             "upvote": "5",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "11": {
             "id": "11",
@@ -107,7 +117,8 @@ const musicList = {
             "image":  "images/royalty.jpg",
             "genre": "R&B",
             "upvote": "3",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "12": {
             "id": "12",
@@ -117,7 +128,8 @@ const musicList = {
             "image":  "images/save-rock-and-roll.jpg",
             "genre": "Pop",
             "upvote": "2",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "13": {
             "id": "13",
@@ -127,7 +139,8 @@ const musicList = {
             "image":  "images/say-something.jpg",
             "genre": "Pop",
             "upvote": "5",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "14": {
             "id": "14",
@@ -137,7 +150,8 @@ const musicList = {
             "image":  "images/songs-from-the-arc-of-life.jpg",
             "genre": "Classical",
             "upvote": "7",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "15": {
             "id": "15",
@@ -147,7 +161,8 @@ const musicList = {
             "image":  "images/the-end.jpg",
             "genre": "R&B",
             "upvote": "8",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "16": {
             "id": "16",
@@ -157,7 +172,8 @@ const musicList = {
             "image":  "images/the-essential-kenny-g.jpg",
             "genre": "Jazz",
             "upvote": "9",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "17": {
             "id": "17",
@@ -167,7 +183,8 @@ const musicList = {
             "image":  "images/the-metallica-collection.jpg",
             "genre": "Metal",
             "upvote": "4",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "18": {
             "id": "18",
@@ -177,7 +194,8 @@ const musicList = {
             "image":  "images/trackside-blues.jpg",
             "genre": "Blues",
             "upvote": "6",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "19": {
             "id": "19",
@@ -187,7 +205,8 @@ const musicList = {
             "image":  "images/we-sing-we-dance-we-steal-things.jpg",
             "genre": "Country",
             "upvote": "10",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         },
         "20": {
             "id": "20",
@@ -197,7 +216,8 @@ const musicList = {
             "image":  "images/x-rays.jpg",
             "genre": "Hip-Pop",
             "upvote": "4",
-            "provider": "System"
+            "providerId": "0",
+            "providerName": "System"
         }};
 
 module.exports = musicList;
