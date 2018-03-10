@@ -1,17 +1,18 @@
 // --- Initialization ---
 const express = require('express');
 const bodyParser = require('body-parser');
+const multer = require('multer');
 const app = express();
 const PORT = 3001;
 
 app.use(express.static('public'));
-app.use(bodyParser.json({extended: true, type: '*/*'}));
-
+const jsonParser = bodyParser.json({extended: true, type: '*/*'});
+const upload = require('./multerUtil').single('image');
 
 // --- Data ---
-let musicList = require('./music.js');
-let userData = require('./user.js');
-const idGenerator = function* (num) {
+let musicList = require('./music');
+let userData = require('./user');
+const userIdGenerator = function* (num) {
     let id = 1;
     while(true) {
         yield id;
@@ -19,6 +20,14 @@ const idGenerator = function* (num) {
     }
     return;
 }(3);
+const musicIdGenerator = function* (num) {
+    let id = num;
+    while(true) {
+        id++;
+        yield id;
+    }
+    return;
+}(20);
 
 
 // --- Services functions ---
@@ -28,13 +37,13 @@ const {verifyUser} = require('./service.js');
 // --- Rounter ---
 /* Get user request */
 app.get('/getUserData', function(req, res) {
-    const id = idGenerator.next().value;
+    const id = userIdGenerator.next().value;
     console.log(`-- user${id} is browsing`);
     res.status(200).send( JSON.stringify(userData[id]) );
 });
 
 /* Get music list request */
-app.post('/getMusic', function(req, res) {
+app.post('/getMusic', jsonParser, function(req, res) {
     const data = req.body;
 
     if (verifyUser(data)) {
@@ -46,7 +55,7 @@ app.post('/getMusic', function(req, res) {
 });
 
 /* Update votes request */
-app.post('/updateUpvote', function(req, res) {
+app.post('/updateUpvote', jsonParser, function(req, res) {
     const data = req.body;
     console.log(' * Update upvote ' + data.id);
 
@@ -59,7 +68,7 @@ app.post('/updateUpvote', function(req, res) {
 });
 
 /* Edit request */
-app.post('/updateMusic', function (req, res) {
+app.post('/updateMusic', jsonParser,function (req, res) {
     const data = req.body;
     console.log(' * Update music ' + data.id);
 
@@ -72,17 +81,32 @@ app.post('/updateMusic', function (req, res) {
 });
 
 /* Delete request */
-app.post('/deleteMusic',function (req, res){
-    const data = req.body;
+app.post('/deleteMusic', jsonParser, function (req, res) {
+    const data = req.body
     console.log(' * Delete music ' + data.id);
 
     if (data.id === 'error') {
         res.status(500).send( {"msg": "delete-music-fails"} );
-    } else {
+    }
+    else {
         deleteMusic(data.id);
         res.status(200).send( {"msg": "delete-music-succeeds"} );
     }
-})
+});
+
+/* Upload request */
+app.post('/uploadMusic', upload, function (req, res) {
+    const data = req.body;
+    console.log(' * Upload music ' + data.title);
+
+    if (req.body) {
+        uploadMusic(data);
+        res.status(200).send( JSON.stringify(musicList) );
+    }
+    else {
+        res.status(500).send( {"msg": "upload-music-fails"} );
+    }
+});
 
 
 // --- Logic of update the data on the server memory ---
@@ -105,6 +129,17 @@ function updateMusic(music) {
 
 function deleteMusic(musicId) {
     delete musicList[musicId];
+}
+
+function uploadMusic(music) {
+    music.id = musicIdGenerator.next().value + '';
+    music.image = 'images/' + music.album.toLowerCase().replace(/\s+/g, '-') + '.jpg';
+    music.upvote = '0';
+    music.providerId = music.providerId;
+    music.providerName = userData[music.providerId].name;
+
+    musicList[music.id] = music;
+    console.log('   Music #' + music.id + ' has been added into list.');
 }
 
 // --- Lisener ---

@@ -26,17 +26,16 @@ async function loadData() {
 const callGetRequest = (url) => {
 	return fetch(url)
 	.then( res => res.ok? res.json() : Promise.reject(res.text()) )
-	.catch( error => Promise.reject('Get-failed') );
+	.catch( error => Promise.reject('Get-failed: ' + error) );
 };
 
 const callPostRequest = (url, data) => {
 	return fetch(url, {
 		method: 'POST',
-		body: JSON.stringify(data),
-		header: new Headers( {'Content-Type': 'application/json'} )
+		body: data,
 	})
 	.then( res => res.ok ? res.json() : Promise.reject(res.text()) )
-	.catch( error => Promise.reject('Post-failed') );
+	.catch( error => Promise.reject('Post-failed: ' + error) );
 };
 
 
@@ -49,24 +48,39 @@ const elements = {
 	nav: document.querySelector('nav'),
 	filterItems: document.querySelectorAll('.filter a'),
 	genreTip: document.querySelector('.genre-tip'),
-	// Popup control
-	popupContainer: document.querySelector('.popup-container'),
-	popupMask: document.querySelector('.popup-mask'),
-	popupCloseBtn: document.querySelector('.popup .close-btn'),
-	// Popup fields
-	inputTitle: document.querySelector('#title'),
-	inputArtist: document.querySelector('#artist'),
-	inputAlbum: document.querySelector('#album'),
-	selectGenre: document.querySelector('#genre'),
-	optionsGenre: document.querySelector('#genre').options,
-	inputProvider: document.querySelector('#provider'),
-	// Popup actions
-	saveBtn: document.querySelector('.save'),
-	deleteBtn: document.querySelector('.delete'),
+	// Edit popup control
+	popupContainerEdit: document.querySelector('#edit-popup.popup-container'),
+	popupMaskEdit: document.querySelector('#edit-popup .popup-mask'),
+	popupCloseBtnEdit: document.querySelector('#edit-popup .close-btn'),
+	// Edit popup fields
+	inputTitleEdit: document.querySelector('#title-edit'),
+	inputArtistEdit: document.querySelector('#artist-edit'),
+	inputAlbumEdit: document.querySelector('#album-edit'),
+	selectGenreEdit: document.querySelector('#genre-edit'),
+	optionsGenreEdit: document.querySelector('#genre-edit').options,
+	providerEdit: document.querySelector('#provider'),
+	// Edit popup actions
+	saveBtn: document.querySelector('.save-btn'),
+	deleteBtn: document.querySelector('.delete-btn'),
+	// Upload popup control
+	popupContainerUpload: document.querySelector('#upload-popup.popup-container'),
+	popupMaskUpload: document.querySelector('#upload-popup .popup-mask'),
+	popupCloseBtnUpload: document.querySelector('#upload-popup .close-btn'),
+	// Upload popup fields
+	inputImgUpload: document.querySelector('#img-upload'),
+	imgPreview: document.querySelector('.img-preview'),
+	inputTitleUpload: document.querySelector('#title-upload'),
+	inputArtistUpload: document.querySelector('#artist-upload'),
+	inputAlbumUpload: document.querySelector('#album-upload'),
+	selectGenreUpload: document.querySelector('#genre-upload'),
+	optionsGenreUpload: document.querySelector('#genre-upload').options,
+	// Upload popup actions
+	uploadBtn: document.querySelector('.upload-btn'),
 	// Search bar
 	searchBar: document.querySelector('.search-bar'),
 	searchBtn: document.querySelector('.search-btn'),
 	// Tool bar
+	upload: document.querySelector('.upload'),
 	rightBtn: document.querySelector('.right-btn'),
 	invertBtn: document.querySelector('.invert-btn'),
 	// Login
@@ -84,10 +98,18 @@ function setStaticEventListener() {
 	// Search control
 	elements.searchBtn.addEventListener('click', searchHandler);
 	elements.searchBar.addEventListener('keydown', searchEnterHandler);
-	// Popup control
-	elements.popupMask.addEventListener('click', togglePopup);
-	elements.popupCloseBtn.addEventListener('click', togglePopup);
-	// Tool-bar actions
+	// Edit popup control
+	elements.popupMaskEdit.addEventListener('click', toggleEditPopup);
+	elements.popupCloseBtnEdit.addEventListener('click', toggleEditPopup);
+	// Upload popup control
+	elements.upload.addEventListener('click', openUploadPopup);
+	elements.popupMaskUpload.addEventListener('click', toggleUploadPopup);
+	elements.popupCloseBtnUpload.addEventListener('click', toggleUploadPopup);
+	// Upload popup actions
+	// elements.imgPreview.addEventListener('error', previewErrorHandler);
+	elements.inputImgUpload.addEventListener('change', uploadImgHandler);
+	elements.uploadBtn.addEventListener('click', uploadHandler);
+	// Sort by
 	elements.rightBtn.addEventListener('click', sortHandler);
 	elements.invertBtn.addEventListener('click', sortHandler);
 }
@@ -104,12 +126,12 @@ function setItemEventListener() {
 	}
 }
 
-function setPopupEventListener() {	
+function setEditPopupEventListener() {	
 	elements.saveBtn.addEventListener('click', saveHandler);
 	elements.deleteBtn.addEventListener('click', deleteHandler);
 }
 
-function resetPopupEventListener() {
+function resetEditPopupEventListener() {
 	elements.saveBtn.removeEventListener('click', saveHandler);
 	elements.deleteBtn.removeEventListener('click', deleteHandler);
 }
@@ -136,8 +158,12 @@ function switchGenre(anchor) {
 // 	upvote.classList.toggle('upvoted');
 // }
 
-function togglePopup() {
-	elements.popupContainer.classList.toggle('popup-container-change');
+function toggleEditPopup() {
+	elements.popupContainerEdit.classList.toggle('popup-container-change');
+}
+
+function toggleUploadPopup() {
+	elements.popupContainerUpload.classList.toggle('popup-container-change');
 }
 
 function toggleRightBtn() {
@@ -155,10 +181,17 @@ function resetSortBtn() {
 	elements.invertBtn.classList.remove('invert-btn-change');
 }
 
-function clearPopupInput() {
-	elements.inputTitle.value = null;
-	elements.inputArtist.value = null;
-	elements.inputAlbum.value = null;
+function clearEditPopupInput() {
+	elements.inputTitleEdit.value = null;
+	elements.inputArtistEdit.value = null;
+	elements.inputAlbumEdit.value = null;
+}
+
+function clearUploadPopup() {
+	elements.inputTitleUpload.value = null;
+	elements.inputArtistEdit.value = null;
+	elements.inputAlbumEdit.value = null;
+	elements.imgPreview.src = null;
 }
 
 function clearSearchBar() {
@@ -188,13 +221,13 @@ function editHandler(event) {
 	// Refresh popup
 	const id = event.target.getAttribute('data-id');
 	currentIdPopup = id;
-	renderPopup();
-	togglePopup();
+	renderEditPopup();
+	toggleEditPopup();
 	// Reset save and delete listeners
-	resetPopupEventListener();
+	resetEditPopupEventListener();
 	// Add new save and delete listeners
-	setPopupEventListener();
-	clearPopupInput();
+	setEditPopupEventListener();
+	clearEditPopupInput();
 }
 
 function sortHandler(event) {
@@ -213,14 +246,14 @@ function sortHandler(event) {
 function saveHandler() {
 	saveMusicFromBuff(saveMusic(currentIdPopup));
 	renderMusic();
-	togglePopup();
+	toggleEditPopup();
 }
 
 function deleteHandler() {
 	deleteMusic(currentIdPopup);
 	deleteMusicFromBuff(currentIdPopup);
 	renderMusic();
-	togglePopup();
+	toggleEditPopup();
 }
 
 function searchHandler() {
@@ -235,6 +268,46 @@ function searchEnterHandler(event) {
 		searchHandler();
 	}
 }
+
+function openUploadPopup() {
+	renderUploadPopup();
+	toggleUploadPopup();
+}
+
+function uploadImgHandler(event) {
+	let file = event.target.files[0];
+
+	let type = file.type.split('/')[0];
+	if (type != 'image') {
+		alert('Must be image.');
+		return;
+	}
+
+	let reader = new FileReader();
+	reader.onload = (event) => {
+		let dataURL = event.target.result;
+		elements.imgPreview.src = dataURL;
+		elements.imgPreview.style.display = null;
+	};
+	reader.readAsDataURL(file); 
+}
+
+function uploadHandler() {
+	uploadMusic()
+	.then( music => {
+		musicList = music;
+		toggleUploadPopup();
+		updateRenderBuff(getGenre(currentGenre));
+		renderMusic();
+	})
+	.catch( error => console.log(error));
+}
+
+// This handler didn't work
+// function previewErrorHandler(event) {
+// 	console.log('Error');
+// 	elements.imgPreview.style.display = none;
+// }
 
 
 // --- Render definition ---
@@ -257,7 +330,7 @@ function renderMusic() {  // items is an arr
 					<div class="upvote ${ userData.like.indexOf(item.id) < 0 ? '': 'upvoted' }" data-id="${item.id}"></div>
 					<span class="upvote-tip">${item.upvote} likes</span>
 				</div>
-				<div class="edit" data-id="${item.id}"></div>
+				<div class="edit" title="Edit Music" data-id="${item.id}"></div>
 			</div>
 			<div class="title">${item.title}</div>
 			<div class="artist">${item.artist}</div>
@@ -267,17 +340,28 @@ function renderMusic() {  // items is an arr
 	setItemEventListener();
 }
 
-function renderPopup() { 
+function renderEditPopup() { 
 	const item = musicList[currentIdPopup];
-	elements.inputTitle.setAttribute('placeholder', item.title);
-	elements.inputArtist.setAttribute('placeholder', item.artist);
-	elements.inputAlbum.setAttribute('placeholder', item.album);
-	for (let i in elements.optionsGenre) {
-		if (elements.optionsGenre[i].value === item.genre) {
-			elements.optionsGenre[i].selected = true;
+	elements.inputTitleEdit.setAttribute('placeholder', item.title);
+	elements.inputArtistEdit.setAttribute('placeholder', item.artist);
+	elements.inputAlbumEdit.setAttribute('placeholder', item.album);
+	for (let i in elements.optionsGenreEdit) {
+		if (elements.optionsGenreEdit[i].value === item.genre) {
+			elements.optionsGenreEdit[i].selected = true;
+			break;
 		}
 	}
-	elements.inputProvider.innerHTML = `Provided by <b>${item.provider}</b>`;
+	elements.providerEdit.innerHTML = `Provided by <b>${item.providerName}</b>`;
+}
+
+function renderUploadPopup() {
+	for (let i in elements.optionsGenreUpload) {
+		if (elements.optionsGenreUpload[i].value == currentGenre) {
+			elements.optionsGenreUpload[i].selected = true;
+			break;
+		}
+		elements.optionsGenreUpload[6].selected = true;
+	}
 }
 
 function setPlaceholder() {
@@ -391,20 +475,21 @@ function lowTohigh(music){
     return music;
 }
 
-// Edit music infomation
+// --- Edit music infomation ---
+// Save
 function saveMusic(musicId) {
     for (let i in musicList) {
         if (i == musicId) {
-        	if (elements.inputTitle.value) {
-           		musicList[i].title = elements.inputTitle.value;
+        	if (elements.inputTitleEdit.value) {
+           		musicList[i].title = elements.inputTitleEdit.value;
         	}
-        	if (elements.inputArtist.value) {
-            	musicList[i].artist = elements.inputArtist.value;
+        	if (elements.inputArtistEdit.value) {
+            	musicList[i].artist = elements.inputArtistEdit.value;
        		}
-       		if (elements.inputAlbum.value) {
-            	musicList[i].album = elements.inputAlbum.value;
+       		if (elements.inputAlbumEdit.value) {
+            	musicList[i].album = elements.inputAlbumEdit.value;
        		}
-       		musicList[i].genre = elements.optionsGenre[elements.selectGenre.selectedIndex].value;
+       		musicList[i].genre = elements.optionsGenreEdit[elements.selectGenreEdit.selectedIndex].value;
        		postSaveData(musicList[i]);
 
    			return musicList[i];
@@ -424,12 +509,13 @@ function postSaveData(music) {
     fetch('/updateMusic', {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: new Headers({'Content-Type': 'application/json'})
+        // headers: new Headers({'Content-Type': 'application/json'})
     })
     .then(response => response.ok ? response.json() : Promise.reject(response.status))
     .catch(error => console.log('Error: ' + error));
 }
 
+// Delete
 function deleteMusic(musicId) {
 	postDeleteData(musicId);
 	delete musicList[musicId];
@@ -441,12 +527,13 @@ function postDeleteData(musicId) {
     fetch('/deleteMusic', {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: new Headers({'Content-Type': 'application/json'})
+        // headers: new Headers({'Content-Type': 'application/json'})
     })
     .then(response => response.ok ? response.json() : Promise.reject(response.status))
     .catch(error => console.log('Error: ' + error));
 }
 
+// Upvote
 function upvoteMusic(musicId) {
     for (let i in musicList) {
         if (i === musicId) {
@@ -472,10 +559,25 @@ function postLikes(musicId, flag, userId) {
     fetch('/updateUpvote', {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: new Headers({'Content-Type': 'application/json'})
+        // headers: new Headers({'Content-Type': 'application/json'})
     })
     .then(response => response.ok ? response.json() : Promise.reject(response.status))
     .catch(error => console.log('Error: ' + error));
 }
 
+// Upload
+function uploadMusic() {
+	let data = new FormData();
+	data.append('title', elements.inputTitleUpload.value);
+	data.append('artist', elements.inputArtistUpload.value);
+	data.append('album', elements.inputAlbumUpload.value);
+	data.append('genre', elements.optionsGenreUpload[elements.selectGenreUpload.selectedIndex].value);
+	data.append('providerId', userData.id);
+	data.append('image', elements.inputImgUpload.files[0]);
+
+	return callPostRequest('/uploadMusic', data);
+}
+
+
+// --- Start APP ---
 loadData();

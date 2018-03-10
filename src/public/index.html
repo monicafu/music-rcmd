@@ -52,35 +52,40 @@
 		<div class="genre-tip">Genre</div>
 	</div>
 
-	<div class="tool-bar">Popularity
-		<div class="sort-btn">
-			<div class="right-btn"></div>
-			<div class="invert-btn"></div>
+	<div class="tool-bar">
+		<div class="upload" title="Upload Music">
+			<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+		</div>
+		<div class="order-by">
+			<div class="sort-btn">
+				<div class="right-btn" title="Decrease by upvotes"></div>
+				<div class="invert-btn" title="Increase by upvotes"></div>
+			</div>
 		</div>
 	</div>
 
 	<!-- Dynamic panel -->
 	<main class="music"></main>
 
-	<div class="popup-container">
+	<div id="edit-popup" class="popup-container">
 		<div class="popup-mask"></div>
 		<div class="popup">
 			<div class="close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48"><path d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"/></svg></div>
 			<div class="field">
-				<label for="title">Title</label>
-				<input type="text" id="title" name="title" placeholder="" />
+				<label for="title-edit">Title</label>
+				<input type="text" id="title-edit" name="title" placeholder="" />
 			</div>
 			<div class="field">
-				<label for="artist">Artist</label>
-				<input type="text" id="artist" name="artist" placeholder="" />
+				<label for="artist-edit">Artist</label>
+				<input type="text" id="artist-edit" name="artist" placeholder="" />
 			</div>
 			<div class="field">
-				<label for="album">Album</label>
-				<input type="text" id="album" name="album" placeholder="" />
+				<label for="album-edit">Album</label>
+				<input type="text" id="album-edit" name="album" placeholder="" />
 			</div>
 			<div class="field">
-				<label for="genre">Genre</label>
-				<select id="genre" name="genre">
+				<label for="genre-edit">Genre</label>
+				<select id="genre-edit" name="genre">
 					<option value="Blues">Blues</option>
 					<option value="Classical">Classical</option>
 					<option value="Country">Country</option>
@@ -97,11 +102,55 @@
 				<div id="provider"></div>
 			</div>
 			<div class="btn-group">
-				<button class="save">Save</button>
-				<button class="delete">Delete Music</button>
+				<button class="save-btn">Save</button>
+				<button class="delete-btn">Delete Music</button>
 			</div>
 		</div>
 	</div>	
+
+	<div id="upload-popup" class="popup-container ">
+		<div class="popup-mask"></div>
+		<div class="popup">
+			<div class="close-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48"><path d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"/></svg></div>
+			<div class="img-field">
+				<label for="img-upload" id="upload-icon"></label>
+				<img class="img-preview" src="" onerror="this.style.display='none';" />
+				<input type="file" id="img-upload" />
+			</div>
+			<div class="field-wrapper">
+				<div class="field">
+					<label for="title-upload">Title</label>
+					<input type="text" id="title-upload" name="title" placeholder="Music Title" required="required" />
+				</div>
+				<div class="field">
+					<label for="artist-upload">Artist</label>
+					<input type="text" id="artist-upload" name="artist" placeholder="Artist Name" required="required" />
+				</div>
+				<div class="field">
+					<label for="album-upload">Album</label>
+					<input type="text" id="album-upload" name="album" placeholder="Album Name" required="required" />
+				</div>
+				<div class="field">
+					<label for="genre-upload">Genre</label>
+					<select id="genre-upload" name="genre">
+						<option value="Blues">Blues</option>
+						<option value="Classical">Classical</option>
+						<option value="Country">Country</option>
+						<option value="Hip-Pop">Hip-Pop</option>
+						<option value="Jazz">Jazz</option>
+						<option value="Metal">Metal</option>
+						<option value="Others">Others</option>
+						<option value="Pop">Pop</option>
+						<option value="Rock">Rock</option>
+						<option value="R&amp;B">R&amp;B</option>
+					</select>
+				</div>
+			</div>
+			<div class="btn-group">
+				<button class="upload-btn">Upload</button>
+			</div>
+		</div>
+	</div>
 
 	<script type="text/javascript" src="js/script.js"></script>
 </body>
