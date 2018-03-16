@@ -43,7 +43,7 @@ Components:
     |  |--Login  
 Server: Skeleton  
  
-#### Fing Fu
+#### Jing Fu
 Components:
 
     |---Navigation
