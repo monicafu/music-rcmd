@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // Components imported here
 import Header from './Header';
+import Navigation from './Navigation';
 
 // Services functions
 import {callGetRequest, callPostRequest} from './script/services.js';
@@ -35,6 +36,7 @@ class App extends Component {
         return (
             <div className="App">
             	<Header userData={this.state.userData} />
+                <Navigation />
             </div>
         );
     }
