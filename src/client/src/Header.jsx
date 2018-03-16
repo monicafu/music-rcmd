@@ -10,7 +10,7 @@ const Header = ( {userData} ) => {
 		<header>
 			<div className="blank-item">Placeholder</div>
 			<Search />
-			<Login userData={userData}/>
+			<Login userData={userData} />
 		</header>
 	);
 };
