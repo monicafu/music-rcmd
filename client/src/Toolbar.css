@@ -1,0 +1,52 @@
+.tool-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 5px 35px;
+	margin-top: 50px;
+}
+
+.upload {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.upload:hover svg {
+	fill: #797979;
+}
+
+.sort-btn {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.right-btn {
+	width: 0;
+	margin-bottom: 3px;
+	border: 9px solid;
+	border-color: transparent transparent #d3d3d3;
+	cursor: pointer;
+}
+
+.invert-btn {
+	width: 0;
+	border: 9px solid;
+	border-color: #d3d3d3 transparent transparent;
+	cursor: pointer;
+}
+
+.right-btn:hover {
+	border-color: transparent transparent #333;
+}
+
+.invert-btn:hover {
+	border-color: #333 transparent transparent;
+}
+
+.right-btn-change {
+	border-color: transparent transparent #333;
+}
+
+.invert-btn-change {
+	border-color: #333 transparent transparent;
+}

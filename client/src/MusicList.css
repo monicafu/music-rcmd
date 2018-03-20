@@ -1,0 +1,91 @@
+.music-list {
+	padding: 0 20px;
+}
+
+.item {
+	box-sizing: border-box;
+	display: inline-block;
+	padding: 0 15px 20px 15px;
+	width: 20%;
+}
+
+.item img {
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.placeholder {
+	width: 60%;
+	margin: 10% auto;
+	color: #888;
+	text-align: center;
+	font-weight: bold;
+}
+
+.result-hightlight {
+	color: #333;
+}
+
+/* Actions module */
+.actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 5px 0;
+	color: #333;
+	font-size: 12px;
+}
+
+.upvote-module {
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap; 
+}
+
+.upvote {
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	background-image: url(./icon/upvote.svg);
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.upvoted {
+	background-image: url(./icon/upvoted.svg)
+}
+
+.upvote-tip {
+	vertical-align: middle;
+	overflow-x: hidden;
+	white-space: nowrap;
+}
+
+.edit {
+	display: inline-block;
+	height: 22px;
+	width: 22px;
+	background-image: url(./icon/edit.svg);
+	cursor: pointer;
+}
+
+.edit:hover {
+	opacity: 0.5;
+}
+
+.item .title {
+	color: #333;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: default;
+}
+
+.item .artist {
+	color: #666;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: default;
+}

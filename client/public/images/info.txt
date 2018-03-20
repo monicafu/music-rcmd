@@ -1,0 +1,119 @@
+id: 1
+Name: Far Away
+Artist: Nickelback
+Album: All The Right Reasons
+Genre: Rock
+
+id: 2
+Name: What A Wonderful World
+Artist: Louis Armstrong
+Album: All Time Greatest Hits
+Genre: Jazz
+
+id: 3
+Name: Angels And Alcohol
+Artist: Alan Jackson
+Album: Angels And Alcohol
+Genre:Country
+
+id: 4
+Name: Attention
+Artist: Charlie Puth
+Album: Attention
+Genre: Pop
+
+id: 5
+Name: Love Me Now
+Artist: John Legend
+Album: Darkness And Light
+Genre: R&B
+
+id: 6
+Name: I Knew You Were Trouble
+Artist: Taylor Swift
+Album: I Knew You Were Trouble
+Genre: Country
+
+id: 7
+Name: Filthy
+Artist: Justin Timberlake
+Album: Man Of The Woods
+Genre: Pop
+
+id: 8
+Name: Maps
+Artist: Maroon 5
+Album: Maps
+Genre: Pop
+
+id: 9
+Name: No More Sorrow
+Artist: Linkin Park
+Album: Minutes To Midnight
+Genre: Rock
+
+id: 10
+Name: We Are The Champion
+Artist: Queen
+Album: News Of The World
+Genre: Rock
+
+id: 11
+Name: Zero
+Artist: Chris Brown 
+Album: Royalty
+Genre: R&B
+
+id: 12
+Name: The Phoenix
+Artist: Fall Out Boy
+Album: Save Rock And Roll
+Genre: Pop
+
+id: 13
+Name: Say Something
+Artist: Justin Timberlake
+Album: Say Something
+Genre: Pop
+
+id: 14
+Name: Papillon,Op.77
+Artist: Yo-Yo Ma
+Album: Songs From The Arc Of Life
+Genre: Classical
+
+id: 15
+Name: Alive
+Artist: Black Eyed Peas
+Album: THE E.N.D
+Genre: R&B
+
+id: 16
+Name: Be My Lady
+Artist: Kenny G
+Album: The Essential Kenny G
+Genre: Jazz
+
+id: 17
+Name: The Unforgiven
+Artist: Metallica
+Album: The Metallica Collection
+Genre: Metal
+
+id: 18
+Name: Ah! Soul
+Artist: Peter Green
+Album: Trackside Blues
+Genre: Blues
+
+id: 19
+Name: I'm Yours
+Artist: Jason Mraz
+Album: We Sing We Dance We Steal Things
+Genre: Country
+
+id: 20
+Name: X-Rays
+Artist: Roberto Echo
+Album: X-Rays
+Genre: Hip Pop
