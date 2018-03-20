@@ -1,0 +1,48 @@
+.filter {
+	width: 0;
+	padding-top: 50px;
+	background-color: #f5f5f5;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+	transition: 0.3s;
+}
+
+.filter-change {
+	width: 200px;
+}
+
+.filter a {
+	display: block;
+	padding: 4px 55px;
+	color: #333;
+	text-decoration: none;
+	font-family: Verdana;
+	font-size: 16px;
+	font-weight: bold;
+	white-space: nowrap;
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+.filter a::before {
+	content: '#';
+	color: rgba(0,0,0,0);
+	border-left: 5px solid #797979;
+	display: inline-block;
+	position: absolute;
+	left: 35px;
+	text-align: left;
+	transition: 0.2s;
+	opacity: 0;
+}
+
+.filter a:hover {
+	color: #797979;
+}
+
+.filter a:hover::before {
+	opacity: 1;
+}

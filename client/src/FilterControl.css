@@ -1,0 +1,41 @@
+.filter-control {
+	position: fixed;
+	top: 7px;
+	left: 15px;
+}
+
+.filter-btn {
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+ .filter-btn .bar1, .filter-btn .bar2, .filter-btn .bar3 {
+	width: 30px;
+	height: 5px;
+	background-color: #333;
+	margin: 5px 0;
+	border-radius: 3px;
+	transition: 0.2s;
+}
+
+.btn-change .bar1 {
+	transform: rotate(-45deg) translate(-7px, 6px);
+}
+
+.btn-change .bar2 {
+	opacity: 0;
+}
+
+.btn-change .bar3 {
+	transform: rotate(45deg) translate(-8px, -8px);
+}
+
+.genre-tip {
+	margin-left: 5px;
+	display: inline-block;
+	color: #333;
+	font-size: 16px;
+	font-weight: bold;
+	vertical-align: middle;
+}
